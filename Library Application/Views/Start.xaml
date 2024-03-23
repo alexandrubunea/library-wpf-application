@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Library_Application.Views.Start"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_Application.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <Grid>
+        <StackPanel
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Center">
+            <Button 
+                x:Name="btn_start_login"
+                Foreground="{StaticResource CoolWhite}"
+                Background="{StaticResource CooolPinkRed}"
+                Style="{StaticResource BigButton}"
+                Content="Login"
+                HorizontalAlignment="Center"
+                Command="{Binding LoginCommand}">
+            </Button>
+            <Button 
+                x:Name="btn_start_register" 
+                Foreground="{StaticResource CoolWhite}"
+                Background="{StaticResource CoolDarkGreenAquaDark}"
+                Style="{StaticResource BigButton}"
+                Content="Register"
+                HorizontalAlignment="Center"
+                Margin="0,10,0,0"
+                Command="{Binding RegisterCommand}">
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
