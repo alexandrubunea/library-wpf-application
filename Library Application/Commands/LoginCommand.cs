@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Library_Application.Commands
 {
-    internal class StartCommand : CommandBase
+    internal class LoginCommand : CommandBase
     {
         // public
-        public StartCommand(string buttonName, Navigation navigation) 
+
+        public LoginCommand(string buttonName, Navigation navigation)
         {
             this.buttonName = buttonName;
             this.navigation = navigation;
@@ -21,16 +22,17 @@ namespace Library_Application.Commands
         {
             if(buttonName == "login")
             {
-                navigation.currentViewModel = new LoginViewModel(navigation);
-            } 
+                // Login into account...
+            }
             else
             {
-                navigation.currentViewModel = new RegisterViewModel(navigation);
+                navigation.currentViewModel = new StartViewModel(navigation);
             }
         }
 
         // private
-        private readonly string buttonName;
-        private readonly Navigation navigation;
+
+        private string buttonName;
+        private Navigation navigation;
     }
 }

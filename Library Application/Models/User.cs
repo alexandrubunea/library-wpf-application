@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library_Application.Database;
 
 namespace Library_Application.Models
 {
@@ -18,7 +20,7 @@ namespace Library_Application.Models
         public bool Active { get; set; }
         public int AccessLevel { get; set; }
         
-        public User(int Id, string FirstName, string LastName, string Email, string Phone, bool Active, int AccessLevel)
+        public User(string FirstName, string LastName, string Email, string Phone, bool Active, int AccessLevel)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -35,7 +37,25 @@ namespace Library_Application.Models
 
         public void store()
         {
+            SqlConnection conn = DBUtils.Connection;
 
+            SqlCommand cmd = new SqlCommand("createUser", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FirstName", FirstName);
+            cmd.Parameters.AddWithValue("@LastName", LastName);
+            cmd.Parameters.AddWithValue("@Email", Email);
+            cmd.Parameters.AddWithValue("@Phone", Phone);
+            cmd.Parameters.AddWithValue("@Password", "default");
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+
+            }
         }
         
         public void update()

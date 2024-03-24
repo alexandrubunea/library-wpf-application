@@ -7,6 +7,184 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1000">
     <Grid>
-
+        <Grid
+        Margin="50,100,50,50"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left">
+                <TextBlock
+                    Text="First Name"
+                    Style="{StaticResource Label}"
+                    HorizontalAlignment="Left">
+                </TextBlock>
+                <TextBlock
+                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_first_name_register}"
+                    Style="{StaticResource ErrorLabel}"
+                    HorizontalAlignment="Right">
+                </TextBlock>
+                <TextBox
+                    x:Name="input_first_name_register"
+                    Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Background="{StaticResource CoolWhite}"
+                    Style="{StaticResource CredentialsInput}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Left">
+                <TextBlock
+                    Text="Last Name"
+                    Style="{StaticResource Label}"
+                    HorizontalAlignment="Left">
+                </TextBlock>
+                <TextBlock
+                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_last_name_register}"
+                    Style="{StaticResource ErrorLabel}"
+                    HorizontalAlignment="Right">
+                </TextBlock>
+                <TextBox
+                    x:Name="input_last_name_register"
+                    Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Background="{StaticResource CoolWhite}"
+                    Style="{StaticResource CredentialsInput}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Left">
+                <TextBlock
+                    Text="E-mail"
+                    Style="{StaticResource Label}"
+                    HorizontalAlignment="Left">
+                </TextBlock>
+                <TextBlock
+                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_email_register}"
+                    Style="{StaticResource ErrorLabel}"
+                    HorizontalAlignment="Right">
+                </TextBlock>
+                <TextBox
+                    x:Name="input_email_register"
+                    Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Background="{StaticResource CoolWhite}"
+                    Style="{StaticResource CredentialsInput}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Left">
+                <TextBlock
+                    Text="Phone"
+                    Style="{StaticResource Label}"
+                    HorizontalAlignment="Left">
+                </TextBlock>
+                <TextBlock
+                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_phone_register}"
+                    Style="{StaticResource ErrorLabel}"
+                    HorizontalAlignment="Right">
+                </TextBlock>
+                <TextBox
+                    x:Name="input_phone_register"
+                    Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Background="{StaticResource CoolWhite}"
+                    Style="{StaticResource CredentialsInput}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Left">
+                <TextBlock
+                    Text="Password"
+                    Style="{StaticResource Label}"
+                    HorizontalAlignment="Left"
+                    Margin="0,20,0,0">
+                </TextBlock>
+                <TextBlock
+                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_password_register}"
+                    Style="{StaticResource ErrorLabel}"
+                    HorizontalAlignment="Right">
+                </TextBlock>
+                <TextBox
+                    x:Name="input_password_register"
+                    Background="{StaticResource CoolWhite}"
+                    Style="{StaticResource CredentialsInput}"
+                    FontFamily="Password"
+                    HorizontalAlignment="Left"
+                    Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left">
+                <TextBlock
+                    Text="Confirm Password"
+                    Style="{StaticResource Label}"
+                    HorizontalAlignment="Left"
+                    Margin="0,20,0,0">
+                </TextBlock>
+                <TextBlock
+                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_confirm_password_register}"
+                    Style="{StaticResource ErrorLabel}"
+                    HorizontalAlignment="Right">
+                </TextBlock>
+                <TextBox 
+                    x:Name="input_confirm_password_register"
+                    Background="{StaticResource CoolWhite}"
+                    Style="{StaticResource CredentialsInput}"
+                    FontFamily="Password"
+                    HorizontalAlignment="Left"
+                    Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center">
+                <Button 
+                    x:Name="btn_register" 
+                    Foreground="{StaticResource CoolWhite}"
+                    Background="{StaticResource CoolDarkGreenAquaDark}"
+                    Style="{StaticResource BigButton}"
+                    Content="Register"
+                    HorizontalAlignment="Center"
+                    Margin="0,100,0,0"
+                    Command="{Binding RegisterCommand}">
+                </Button>
+            </StackPanel>
+            <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center">
+                <Button 
+                    x:Name="btn_register_back" 
+                    Foreground="{StaticResource CoolWhite}"
+                    Background="{StaticResource CoolDarkBlue}"
+                    Style="{StaticResource BigButton}"
+                    Content="Back"
+                    HorizontalAlignment="Center"
+                    Margin="0,100,0,0"
+                    Command="{Binding BackCommand}">
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
