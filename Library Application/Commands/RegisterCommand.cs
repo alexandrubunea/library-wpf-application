@@ -13,20 +13,20 @@ namespace Library_Application.Commands
     {
         // public
 
-        public RegisterCommand(string buttonName, Navigation navigation, bool validData)
+        public RegisterCommand(string buttonName, Navigation navigation)
         {
             this.buttonName = buttonName;
             this.navigation = navigation;
-            this.validData = validData;
         }
 
         public override void Execute(object? parameter)
         {
-            if(buttonName == "register" && validData)
+            RegisterViewModel? viewModel = navigation.currentViewModel as RegisterViewModel;
+            if(buttonName == "register" && viewModel.NotEmptyData && !viewModel.HasErrors)
             {
                 // Register user...
             }
-            else
+            else if(buttonName == "back")
             {
                 navigation.currentViewModel = new StartViewModel(navigation);
             }
@@ -35,6 +35,5 @@ namespace Library_Application.Commands
         // private
         private string buttonName;
         private Navigation navigation;
-        private bool validData;
     }
 }

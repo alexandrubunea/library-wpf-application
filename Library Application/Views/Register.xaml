@@ -4,11 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Library_Application.Views"
+             xmlns:utils="clr-namespace:Library_Application.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <utils:ErrorConverter x:Key="ErrorConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid
-        Margin="50,100,50,50"
+        Margin="50,50,50,50"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -31,7 +35,7 @@
                     HorizontalAlignment="Left">
                 </TextBlock>
                 <TextBlock
-                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_first_name_register}"
+                    Text="{Binding (Validation.Errors), ElementName=input_first_name_register, Converter={StaticResource ErrorConverter}}"
                     Style="{StaticResource ErrorLabel}"
                     HorizontalAlignment="Right">
                 </TextBlock>
@@ -53,7 +57,7 @@
                     HorizontalAlignment="Left">
                 </TextBlock>
                 <TextBlock
-                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_last_name_register}"
+                    Text="{Binding (Validation.Errors), ElementName=input_last_name_register, Converter={StaticResource ErrorConverter}}"
                     Style="{StaticResource ErrorLabel}"
                     HorizontalAlignment="Right">
                 </TextBlock>
@@ -75,7 +79,7 @@
                     HorizontalAlignment="Left">
                 </TextBlock>
                 <TextBlock
-                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_email_register}"
+                    Text="{Binding (Validation.Errors), ElementName=input_email_register, Converter={StaticResource ErrorConverter}}"
                     Style="{StaticResource ErrorLabel}"
                     HorizontalAlignment="Right">
                 </TextBlock>
@@ -96,7 +100,7 @@
                     HorizontalAlignment="Left">
                 </TextBlock>
                 <TextBlock
-                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_phone_register}"
+                    Text="{Binding (Validation.Errors), ElementName=input_phone_register, Converter={StaticResource ErrorConverter}}"
                     Style="{StaticResource ErrorLabel}"
                     HorizontalAlignment="Right">
                 </TextBlock>
@@ -118,7 +122,7 @@
                     Margin="0,20,0,0">
                 </TextBlock>
                 <TextBlock
-                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_password_register}"
+                    Text="{Binding (Validation.Errors), ElementName=input_password_register, Converter={StaticResource ErrorConverter}}"
                     Style="{StaticResource ErrorLabel}"
                     HorizontalAlignment="Right">
                 </TextBlock>
@@ -142,7 +146,7 @@
                     Margin="0,20,0,0">
                 </TextBlock>
                 <TextBlock
-                    Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=input_confirm_password_register}"
+                    Text="{Binding (Validation.Errors), ElementName=input_confirm_password_register, Converter={StaticResource ErrorConverter}}"
                     Style="{StaticResource ErrorLabel}"
                     HorizontalAlignment="Right">
                 </TextBlock>

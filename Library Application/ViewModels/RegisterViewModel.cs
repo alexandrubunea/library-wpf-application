@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Library_Application.ViewModels
 {
-    internal class RegisterViewModel : ViewModelBase, IDataErrorInfo
+    internal class RegisterViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         // public
         public ICommand RegisterCommand { get; }
@@ -20,141 +20,154 @@ namespace Library_Application.ViewModels
 
         public string FirstName
         {
-            get
-            {
-                return first_name;
-            }
+            get => first_name;
             set
             {
                 first_name = value;
+
+                ClearErrors(nameof(FirstName));
+                if(string.IsNullOrEmpty(first_name))
+                {
+                    AddError(nameof(FirstName), "* This field is required.");
+                }
+
                 OnPropertyChanged(nameof(FirstName));
             }
         }
         public string LastName
         {
-            get
-            {
-                return last_name;
-            }
+            get => last_name;
             set
             {
                 last_name = value;
+
+                ClearErrors(nameof(LastName));
+                if (string.IsNullOrEmpty(last_name))
+                {
+                    AddError(nameof(LastName), "* This field is required.");
+                }
+
                 OnPropertyChanged(nameof(LastName));
             }
         }
         public string Email
         {
-            get
-            {
-                return email;
-            }
+            get => email;
             set
             {
                 email = value;
+
+                ClearErrors(nameof(Email));
+                
+                if(!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+                {
+                    AddError(nameof(Email), "* A valid email address is required.");
+                }
+
                 OnPropertyChanged(nameof(Email));
             }
         }
         public string Phone
         {
-            get
-            {
-                return phone;
-            }
+            get => phone;
             set
             {
                 phone = value;
+
+                ClearErrors(nameof(Phone));
+
+                if (!Regex.IsMatch(phone, @"^\+?[0-9]{10,15}$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+                {
+                    AddError(nameof(Phone), "* A valid phone number is required.");
+                }
+
                 OnPropertyChanged(nameof(Phone));
             }
         }
 
         public string Password
         {
-            get
-            {
-                return password;
-            }
+            get => password;
             set
             {
                 password = value;
+
+                ClearErrors(nameof(Password));
+                ClearErrors(nameof(ConfirmPassword));
+
+                if (!Regex.IsMatch(password, @"^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{5,}$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+                {
+                    AddError(nameof(Password), "* The password is too weak. Try to add numbers/special characters.");
+                }
+
                 OnPropertyChanged(nameof(Password));
             }
         }
 
         public string ConfirmPassword
         {
-            get
-            {
-                return confirm_password;
-            }
+            get => confirm_password;
             set
             {
                 confirm_password = value;
+
+                ClearErrors(nameof(ConfirmPassword));
+
+                if (!string.Equals(password, confirm_password))
+                {
+                    AddError(nameof(ConfirmPassword), "* The passwords don't match.");
+                }
+
                 OnPropertyChanged(nameof(ConfirmPassword));
             }
         }
 
-        public string Error => "Something went wrong.";
+        public bool HasErrors => property_errors.Any();
 
-        public string this[string columnName]
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        public IEnumerable GetErrors(string? propertyName)
+        {
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+            return property_errors.GetValueOrDefault(propertyName, []);
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+        }
+
+        public bool NotEmptyData
         {
             get
             {
-                if(columnName == "FirstName")
-                {
-                    if (string.IsNullOrWhiteSpace(FirstName))
-                        return "* Field must be completed.";
-                }
+                if (string.IsNullOrEmpty(first_name) || string.IsNullOrEmpty(last_name) ||
+                    string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone) ||
+                    string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirm_password))
+                { return false; }
+                return true;
+            }
+        }
 
-                if(columnName == "LastName")
-                {
-                    if (string.IsNullOrWhiteSpace(LastName))
-                        return "* Field must be completed.";
-                }
+        public void AddError(string propertyName, string errorMessage)
+        {
+            if(!property_errors.ContainsKey(propertyName))
+            {
+                property_errors.Add(propertyName, new List<string>());
+            }
 
-                if(columnName == "Email")
-                {
-                    if (string.IsNullOrWhiteSpace(Email))
-                        return "* Field must be completed.";
-                    if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
-                        return "* This is not a valid email address.";
-                }
+            property_errors[propertyName].Add(errorMessage);
+            OnErrorsChange(propertyName);
+        }
 
-                if(columnName == "Phone")
-                {
-                    if (string.IsNullOrWhiteSpace(Phone))
-                        return "* Field must be completed.";
-                    if (!Regex.IsMatch(Phone, @"^\+?[0-9]{10,15}$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
-                        return "* This is not a valid phone number.";
-                }
-
-                if(columnName == "Password")
-                {
-                    if (string.IsNullOrWhiteSpace(Password))
-                        return "* Field must be completed.";
-                    if (!Regex.IsMatch(Password, @"^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{5,}$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
-                        return "* This password is too weak. Try to add special characters/numbers.";
-                    if (!string.IsNullOrWhiteSpace(ConfirmPassword) && Password != ConfirmPassword)
-                        return "* The passwords does not match.";
-                }
-
-                if(columnName == "ConfirmPassword")
-                {
-                    if (string.IsNullOrWhiteSpace(ConfirmPassword))
-                        return "* Field must be completed.";
-                    if (!Regex.IsMatch(Password, @"^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{5,}$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
-                        return "* This password is too weak. Try to add special characters/numbers.";
-                    if (!string.IsNullOrWhiteSpace(Password) && ConfirmPassword != Password)
-                        return "* The passwords does not match.";
-                }
-
-                return "";
+        public void ClearErrors(string propertyName)
+        {
+            if(property_errors.Remove(propertyName))
+            {
+                OnErrorsChange(propertyName);
             }
         }
 
         public RegisterViewModel(Navigation navigation)
         {
-            RegisterCommand = new RegisterCommand("register", navigation, valid_data);
-            BackCommand = new RegisterCommand("back", navigation, valid_data);
+            RegisterCommand = new RegisterCommand("register", navigation);
+            BackCommand = new RegisterCommand("back", navigation);
 
             first_name = "";
             last_name = "";
@@ -162,8 +175,6 @@ namespace Library_Application.ViewModels
             phone = "";
             password = "";
             confirm_password = "";
-            
-            valid_data = false;
         }
 
         // private
@@ -174,6 +185,11 @@ namespace Library_Application.ViewModels
         private string password;
         private string confirm_password;
 
-        private bool valid_data;
+        private readonly Dictionary<string, List<string>> property_errors = new Dictionary<string, List<string>>();
+
+        private void OnErrorsChange(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
     }
 }
