@@ -9,6 +9,7 @@
              d:DesignHeight="700" d:DesignWidth="1000">
     <UserControl.Resources>
         <utils:ErrorConverter x:Key="ErrorConverter" />
+        <utils:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid
@@ -24,11 +25,23 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Left">
+                <TextBlock Text="* Email or phone number already in use." 
+                   Style="{StaticResource ErrorLabel}" 
+                   HorizontalAlignment="Left" 
+                   Visibility="{Binding AccountAlreadyExists, Converter={StaticResource BooleanToVisibilityConverter}}">
+                </TextBlock>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Margin="0,20,0,0">
                 <TextBlock
                     Text="First Name"
                     Style="{StaticResource Label}"
@@ -43,11 +56,12 @@
                     x:Name="input_first_name_register"
                     Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Background="{StaticResource CoolWhite}"
-                    Style="{StaticResource CredentialsInput}">
+                    Style="{StaticResource CredentialsInput}"
+                    MaxLength="50">
                 </TextBox>
             </StackPanel>
             <StackPanel
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="0"
                 Margin="0,20,0,0"
                 HorizontalAlignment="Left">
@@ -65,11 +79,12 @@
                     x:Name="input_last_name_register"
                     Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Background="{StaticResource CoolWhite}"
-                    Style="{StaticResource CredentialsInput}">
+                    Style="{StaticResource CredentialsInput}"
+                    MaxLength="50">
                 </TextBox>
             </StackPanel>
             <StackPanel
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="0"
                     Margin="0,20,0,0"
                     HorizontalAlignment="Left">
@@ -87,13 +102,15 @@
                     x:Name="input_email_register"
                     Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Background="{StaticResource CoolWhite}"
-                    Style="{StaticResource CredentialsInput}">
+                    Style="{StaticResource CredentialsInput}"
+                    MaxLength="50">
                 </TextBox>
             </StackPanel>
             <StackPanel
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="1"
-                HorizontalAlignment="Left">
+                HorizontalAlignment="Left"
+                Margin="0,20,0,0">
                 <TextBlock
                     Text="Phone"
                     Style="{StaticResource Label}"
@@ -108,11 +125,12 @@
                     x:Name="input_phone_register"
                     Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Background="{StaticResource CoolWhite}"
-                    Style="{StaticResource CredentialsInput}">
+                    Style="{StaticResource CredentialsInput}"
+                    MaxLength="15">
                 </TextBox>
             </StackPanel>
             <StackPanel
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="1"
                 HorizontalAlignment="Left">
                 <TextBlock
@@ -132,11 +150,12 @@
                     Style="{StaticResource CredentialsInput}"
                     FontFamily="Password"
                     HorizontalAlignment="Left"
+                    MaxLength="50"
                     Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                 </TextBox>
             </StackPanel>
             <StackPanel
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="1"
                     HorizontalAlignment="Left">
                 <TextBlock
@@ -156,6 +175,7 @@
                     Style="{StaticResource CredentialsInput}"
                     FontFamily="Password"
                     HorizontalAlignment="Left"
+                    MaxLength="50"
                     Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                 </TextBox>
             </StackPanel>

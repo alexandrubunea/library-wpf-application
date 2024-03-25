@@ -122,6 +122,16 @@ namespace Library_Application.ViewModels
             }
         }
 
+        public bool AccountAlreadyExists
+        {
+            get => account_already_exists;
+            set
+            {
+                account_already_exists = value;
+                OnPropertyChanged(nameof(AccountAlreadyExists));
+            }
+        }
+
         public bool HasErrors => property_errors.Any();
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
@@ -175,6 +185,7 @@ namespace Library_Application.ViewModels
             phone = "";
             password = "";
             confirm_password = "";
+            account_already_exists = false;
         }
 
         // private
@@ -184,7 +195,7 @@ namespace Library_Application.ViewModels
         private string phone;
         private string password;
         private string confirm_password;
-
+        private bool account_already_exists;
         private readonly Dictionary<string, List<string>> property_errors = new Dictionary<string, List<string>>();
 
         private void OnErrorsChange(string propertyName)

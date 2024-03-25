@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library_Application.Database;
+using Library_Application.Utils;
+using System.Net.Http.Headers;
+using Library_Application.Stores;
 
 namespace Library_Application.Models
 {
@@ -32,7 +35,29 @@ namespace Library_Application.Models
 
         public void updatePassword(string newPassword)
         {
+            SqlConnection conn = DBUtils.Connection;
 
+            SqlCommand cmd = new SqlCommand("updatePassword", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Email", Email);
+            cmd.Parameters.AddWithValue("@Password", Hashing.GetHashString(newPassword));
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
         }
 
         public void store()
@@ -52,9 +77,16 @@ namespace Library_Application.Models
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch
+            catch(SqlException ex)
             {
-
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if(conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
         
