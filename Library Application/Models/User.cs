@@ -9,6 +9,7 @@ using Library_Application.Database;
 using Library_Application.Utils;
 using System.Net.Http.Headers;
 using Library_Application.Stores;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Library_Application.Models
 {
@@ -25,12 +26,52 @@ namespace Library_Application.Models
         
         public User(string FirstName, string LastName, string Email, string Phone, bool Active, int AccessLevel)
         {
+            this.Id = -1;
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Email = Email;
             this.Phone = Phone;
             this.Active = Active;
             this.AccessLevel = AccessLevel;
+        }
+
+        public void fetchId()
+        {
+            if(this.Id != -1)
+            {
+                return;
+            }
+
+            SqlConnection conn = DBUtils.Connection;
+
+            SqlCommand cmd = new SqlCommand("fetchId", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Email", Email);
+            cmd.Parameters.AddWithValue("@Phone", Phone);
+
+            int? userId = null;
+
+            try
+            {
+                conn.Open();
+                userId = (int?)cmd.ExecuteScalar();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            if (userId != null)
+            {
+                Id = (int) userId;
+            }
         }
 
         public void updatePassword(string newPassword)

@@ -45,6 +45,8 @@ namespace Library_Application.Commands
 
                 newUser.store();
                 newUser.updatePassword(viewModel.Password);
+
+                navigation.currentViewModel = new LoginViewModel(navigation);
             }
             else if(buttonName == "back")
             {

@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library_Application.Models;
 
 namespace Library_Application.Commands
 {
@@ -27,51 +28,27 @@ namespace Library_Application.Commands
             LoginViewModel? viewModel = navigation.currentViewModel as LoginViewModel;
             if (buttonName == "login" && viewModel.NotEmptyData && !viewModel.HasErrors)
             {
-                SqlConnection conn = DBUtils.Connection;
-                SqlCommand cmd = new SqlCommand("doesAccountExists", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", viewModel.Email);
-                cmd.Parameters.AddWithValue("@Phone", " ");
-
-                int count = 0;
-
                 viewModel.IncorrectPassword = false;
                 viewModel.AccountDoesntExists = false;
 
-                try
-                {
-                    conn.Open();
-                    count = (int) cmd.ExecuteScalar();
-                }
-                catch(SqlException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-                finally
-                {
-                    if (conn != null && conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
-                }
-
-                if(count == 0)
+                if(!DBUtils.doesAccountExists(viewModel.Email, " "))
                 {
                     viewModel.AccountDoesntExists = true;
                     return;
                 }
 
-                cmd = new SqlCommand("checkCredentials", conn);
+                SqlConnection conn = DBUtils.Connection;
+                SqlCommand cmd = new SqlCommand("checkCredentials", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Email", viewModel.Email);
                 cmd.Parameters.AddWithValue("@Password", Hashing.GetHashString(viewModel.Password));
 
-                count = 0;
+                int? userId = null;
 
                 try
                 {
                     conn.Open();
-                    count = (int)cmd.ExecuteScalar();
+                    userId = (int?) cmd.ExecuteScalar();
                 }
                 catch (SqlException ex)
                 {
@@ -85,10 +62,17 @@ namespace Library_Application.Commands
                     }
                 }
 
-                if (count == 0)
+                if (userId == null)
                 {
                     viewModel.IncorrectPassword = true;
                     return;
+                }
+
+                User? userData = DBUtils.retriveUserData((int) userId);
+                if(userData != null)
+                {
+                    userData.fetchId();
+                    Session session = new Session(userData);
                 }
             }
             else if(buttonName == "back")

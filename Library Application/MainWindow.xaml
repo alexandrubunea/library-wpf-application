@@ -8,7 +8,10 @@
         xmlns:vms="clr-namespace:Library_Application.ViewModels"
         mc:Ignorable="d"
         Title="Library Application" Height="700" Width="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        MaxHeight="700" MaxWidth="1000"
+        MinHeight="700" MinWidth="1000">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type vms:StartViewModel}">

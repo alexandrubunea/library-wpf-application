@@ -12,10 +12,7 @@ namespace Library_Application.Stores
         // public
         public ViewModelBase? currentViewModel
         {
-            get
-            {
-                return _currentViewModel;
-            }
+            get => _currentViewModel;
 
             set
             {
