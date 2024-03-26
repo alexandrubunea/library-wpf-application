@@ -73,6 +73,8 @@ namespace Library_Application.Commands
                 {
                     userData.fetchId();
                     Session session = new Session(userData);
+
+                    navigation.currentViewModel = new AllBooksViewModel(session, navigation);
                 }
             }
             else if(buttonName == "back")
