@@ -11,7 +11,6 @@ namespace Library_Application.ViewModels
     {
         public AllBooksViewModel(Session session, Navigation navigation) : base(session, navigation)
         {
-
         }
     }
 }

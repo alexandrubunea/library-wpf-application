@@ -1,18 +1,57 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush  x:Key="CooolPinkRed">#E74C3C</SolidColorBrush>
+
+    <SolidColorBrush  x:Key="CoolPinkRed">#E74C3C</SolidColorBrush>
     <SolidColorBrush  x:Key="CoolDarkGreenAquaDark">#1B7F79</SolidColorBrush>
     <SolidColorBrush  x:Key="CoolBlue">#3498DB</SolidColorBrush>
     <SolidColorBrush  x:Key="CoolWhite">#ECF0F1</SolidColorBrush>
     <SolidColorBrush  x:Key="CoolBlack">#2C3E50</SolidColorBrush>
     <SolidColorBrush  x:Key="CoolDarkBlue">#2980B9</SolidColorBrush>
 
+    <Style x:Key="LogoutButton" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource CoolWhite}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource CoolPinkRed}"/>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="HeadTitle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="35"/>
+        <Setter Property="FontWeight" Value="ExtraBlack"/>
+        <Setter Property="Foreground" Value="{StaticResource CoolWhite}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,20,0,20"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    
     <Style x:Key="SideMenu" TargetType="ItemsControl">
         <Setter Property="BorderBrush" Value="#252526"/>
         <Setter Property="BorderThickness" Value="0,0,4,0"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="Padding" Value="20,30,0,0"/>
+        <Setter Property="Padding" Value="0,20,0,0"/>
         <Setter Property="Background" Value="#273747"/>
         <Setter Property="Width" Value="250"/>
         <Setter Property="ItemsPanel">
@@ -26,22 +65,35 @@
         </Setter>
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="SideMenuItem">
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="#ECF0F1"/>
-        <Setter Property="Margin" Value="0,15,0,0"/>
-
+    <Style TargetType="TextBlock" x:Key="ItemText">
+        <Setter Property="Foreground" Value="{StaticResource CoolWhite}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="#84BAF1"/>
+                <Setter Property="Foreground" Value="{StaticResource CoolBlue}"/>
                 <Setter Property="Cursor" Value="Hand"/>
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style TargetType="MenuItem" x:Key="SideMenuItem">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,15,0,0"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <TextBlock 
+                        Text="{TemplateBinding Header}" 
+                        Margin="20,0,0,0"
+                        Style="{StaticResource ItemText}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="TextBlock" x:Key="Label">
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -51,7 +103,7 @@
     <Style TargetType="TextBlock" x:Key="ErrorLabel">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="#E74C3C"/>
+        <Setter Property="Foreground" Value="{StaticResource CoolPinkRed}"/>
     </Style>
 
     <Style TargetType="TextBox" x:Key="CredentialsInput">
@@ -59,7 +111,7 @@
         <Setter Property="Height" Value="60"/>
         <Setter Property="FontSize" Value="30"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="#252526"/>
+        <Setter Property="Foreground" Value="{StaticResource CoolBlack}"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -68,16 +120,16 @@
                             Padding="4,2"
                             CornerRadius="3"
                             BorderThickness="5"
-                            Background="#ECF0F1">
+                            Background="{StaticResource CoolWhite}">
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="#2980B9" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CoolDarkBlue}" />
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="#E74C3C"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CoolPinkRed}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -87,7 +139,7 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <TextBlock Text="" Foreground="#E74C3C" VerticalAlignment="Center"/>
+                    <TextBlock Text="" Foreground="{StaticResource CoolPinkRed}" VerticalAlignment="Center"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -112,7 +164,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="#f0f0f0" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CoolWhite}" />
+                            <Setter Property="Cursor" Value="Hand"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

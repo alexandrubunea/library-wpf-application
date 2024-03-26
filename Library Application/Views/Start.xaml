@@ -14,7 +14,7 @@
             <Button 
                 x:Name="btn_start_login"
                 Foreground="{StaticResource CoolWhite}"
-                Background="{StaticResource CooolPinkRed}"
+                Background="{StaticResource CoolPinkRed}"
                 Style="{StaticResource BigButton}"
                 Content="Login"
                 HorizontalAlignment="Center"

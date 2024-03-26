@@ -13,6 +13,9 @@ namespace Library_Application.ViewModels
     class ViewModelBaseSideBar : ViewModelBase
     {
         // public
+        public ICommand SideBarItemsCommand { get; }
+        public ICommand LogoutCommand { get; }
+
         public ObservableCollection<string> SideBarItems
         {
             get => items;
@@ -22,6 +25,8 @@ namespace Library_Application.ViewModels
         {
             this.session = session;
             this.navigation = navigation;
+
+            LogoutCommand = new LogoutCommand(this.navigation);
 
             ObservableCollection<string> items = new ObservableCollection<string>()
             {
@@ -33,12 +38,14 @@ namespace Library_Application.ViewModels
                 "BORROWED BOOKS"
             };
 
-            if(session.User.AccessLevel > 0)
+            if (session.User.AccessLevel > 0)
             {
                 items.Add("MANAGE LIBRARY");
             }
 
             this.items = items;
+
+            SideBarItemsCommand = new SideBarItemsCommand(navigation, session);
         }
 
         // protected
