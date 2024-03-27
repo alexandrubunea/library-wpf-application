@@ -7,6 +7,40 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1000"
              Background="{StaticResource CoolBlack}">
+
+    <UserControl.Resources>
+        <Style x:Key="ManageButton" TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource CoolWhite}"/>
+            <Setter Property="Background" Value="{StaticResource CoolDarkGreenAquaDark}"/>
+            <Setter Property="Width" Value="230"/>
+            <Setter Property="Height" Value="100"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            Padding="15"
+                            CornerRadius="7"
+                            BorderThickness="2"
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CoolWhite}" />
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -57,6 +91,80 @@
                     Style="{StaticResource HeadTitle}"
                     Text="LIBRARY MANAGER"/>
             </Border>
+            <Grid
+                Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    x:Name="btn_manage_books"
+                    Content="Manage Books"
+                    Style="{StaticResource ManageButton}"
+                    Command="{Binding CommandManageBooks}"/>
+                <Button 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="btn_manage_authors"
+                    Content="Manage Authors"
+                    Style="{StaticResource ManageButton}"
+                    Command="{Binding CommandManageAuthors}"/>
+                <Button 
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    x:Name="btn_manage_books_types"
+                    Style="{StaticResource ManageButton}"
+                    Command="{Binding CommandManageBookTypes}">
+                    
+                    <TextBlock TextAlignment="Center">
+                        Manage Book <LineBreak/>
+                        Types
+                    </TextBlock>
+                </Button>
+                <Button 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    x:Name="btn_manage_publishing"
+                    Style="{StaticResource ManageButton}"
+                    Command="{Binding CommandManagePublishers}"
+                    VerticalAlignment="Top">
+
+                    <TextBlock TextAlignment="Center">
+                        Manage <LineBreak/>
+                        Publishers
+                    </TextBlock>
+                </Button>
+                <Button 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    x:Name="btn_manage_users"
+                    Style="{StaticResource ManageButton}"
+                    Command="{Binding CommandManageUsers}"
+                    VerticalAlignment="Top"
+                    Content="Manage Users"/>
+                <Button 
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    x:Name="btn_manage_books_borrow"
+                    Style="{StaticResource ManageButton}"
+                    Command="{Binding CommandManageBooksBorrow}"
+                    VerticalAlignment="Top">
+
+                    <TextBlock TextAlignment="Center">
+                        Manage Books <LineBreak/>
+                        Borrow
+                    </TextBlock>
+                </Button>
+
+            </Grid>
 
         </Grid>
     </Grid>

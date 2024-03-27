@@ -42,7 +42,7 @@ namespace Library_Application.Commands
                         navigation.currentViewModel = new AuthorsViewModel(session, navigation);
                         break;
                     }
-                case "PUBLISHING":
+                case "PUBLISHERS":
                     {
                         navigation.currentViewModel = new PublishingViewModel(session, navigation);
                         break;

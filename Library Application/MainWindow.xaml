@@ -44,6 +44,25 @@
             <DataTemplate DataType="{x:Type vms:ManageLibraryViewModel}">
                 <views:ManageLibrary/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vms:ManageAuthorsViewModel}">
+                <views:ManageAuthors/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:ManageBooksBorrowViewModel}">
+                <views:ManageBookBorrows/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:ManageBooksViewModel}">
+                <views:ManageBooks/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:ManageBookTypesViewModel}">
+                <views:ManageBookTypes/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:ManagePublishersViewModel}">
+                <views:ManagePublishers/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:ManageUsersViewModel}">
+                <views:ManageUsers/>
+            </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>

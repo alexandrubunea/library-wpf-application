@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Library_Application.Views.ManageAuthors"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_Application.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000"
+             Background="{StaticResource CoolBlack}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Column="0">
+            <ItemsControl
+                Style="{StaticResource SideMenu}" 
+                ItemsSource="{Binding SideBarItems}"
+                Grid.Row="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <MenuItem
+                        Header="{Binding}" 
+                        Style="{StaticResource SideMenuItem}"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.SideBarItemsCommand}"
+                        CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom">
+                <Button
+                    Grid.Row="0"
+                    FontSize="25"
+                    FontWeight="ExtraBold"
+                    Margin="0,0,0,25"
+                    Command="{Binding LogoutCommand}"
+                    Style="{StaticResource LogoutButton}"
+                    Content="LOG OUT"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="0"
+                BorderBrush="{StaticResource CoolWhite}"
+                BorderThickness="0,0,0,5">
+                <TextBlock
+                    Grid.Row="0"
+                    Style="{StaticResource HeadTitle}"
+                    Text="MANAGE AUTHORS"/>
+            </Border>
+
+        </Grid>
+    </Grid>
+</UserControl>

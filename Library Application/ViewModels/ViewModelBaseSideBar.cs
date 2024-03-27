@@ -34,7 +34,7 @@ namespace Library_Application.ViewModels
                 "SEARCH A BOOK",
                 "TYPE OF BOOKS",
                 "AUTHORS",
-                "PUBLISHING",
+                "PUBLISHERS",
                 "BORROWED BOOKS"
             };
 
