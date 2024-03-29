@@ -46,6 +46,7 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border
@@ -57,6 +58,33 @@
                     Style="{StaticResource HeadTitle}"
                     Text="MANAGE BOOK TYPES"/>
             </Border>
+            <Button
+                Grid.Row="1"
+                Content="Create Book Type"
+                Foreground="{StaticResource CoolWhite}"
+                Background="{StaticResource CoolDarkGreenAquaDark}"
+                Style="{StaticResource AddButton}"
+                Command="{Binding CreateBookType}"/>
+            <ListView
+                Grid.Row="2"
+                Name="bookTypesListView"
+                Background="{StaticResource CoolBlack}"
+                Foreground="{StaticResource CoolWhite}"
+                BorderBrush="{StaticResource CoolWhite}"
+                ItemsSource="{Binding BookTypesList}"
+                FontSize="20"
+                BorderThickness="0">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource MinimalistListView}" TargetType="ListViewItem"/>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID" Width="50" HeaderContainerStyle="{StaticResource TableHeader}"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="500" HeaderContainerStyle="{StaticResource TableHeader}"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Action" Width="200" HeaderContainerStyle="{StaticResource TableHeader}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
         </Grid>
     </Grid>

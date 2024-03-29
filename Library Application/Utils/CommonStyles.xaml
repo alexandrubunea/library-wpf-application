@@ -8,6 +8,53 @@
     <SolidColorBrush  x:Key="CoolBlack">#2C3E50</SolidColorBrush>
     <SolidColorBrush  x:Key="CoolDarkBlue">#2980B9</SolidColorBrush>
 
+    <Style x:Key="MinimalistListView" TargetType="ListViewItem">
+        <Setter Property="BorderThickness" Value="0,0,1,0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CoolWhite}"/>
+    </Style>
+
+    <Style x:Key="TableHeader" TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="{StaticResource CoolBlack}"/>
+        <Setter Property="Foreground" Value="{StaticResource CoolWhite}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="IsEnabled" Value="False"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="TextElement.Foreground" Value="{StaticResource CoolWhite}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="AddButton" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="20"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border" 
+                            Padding="20,0,20,0"
+                            CornerRadius="7"
+                            BorderThickness="2"
+                            Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CoolWhite}" />
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="LogoutButton" TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="{StaticResource CoolWhite}"/>

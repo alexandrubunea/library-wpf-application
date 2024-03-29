@@ -24,14 +24,14 @@ namespace Library_Application.Models
         public bool Active { get; set; }
         public int AccessLevel { get; set; }
         
-        public User(string FirstName, string LastName, string Email, string Phone, bool Active, int AccessLevel)
+        public User(string FirstName, string LastName, string Email, string Phone, int AccessLevel)
         {
             this.Id = -1;
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Email = Email;
             this.Phone = Phone;
-            this.Active = Active;
+            this.Active = true;
             this.AccessLevel = AccessLevel;
         }
 

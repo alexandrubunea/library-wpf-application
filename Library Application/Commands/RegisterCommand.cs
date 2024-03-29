@@ -39,7 +39,6 @@ namespace Library_Application.Commands
                         viewModel.LastName,
                         viewModel.Email,
                         viewModel.Phone,
-                        true,
                         0
                     );
 

@@ -47,7 +47,6 @@ namespace Library_Application.Database
                             lastName,
                             email,
                             phone,
-                            active,
                             acccesLevel
                         );
                 }
@@ -65,6 +64,79 @@ namespace Library_Application.Database
             }
 
             return user;
+        }
+
+        public static List<BookType> retriveBookTypes()
+        {
+            List<BookType> bookTypes = new List<BookType>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveBookTypes", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    string? bookTypeName = Convert.ToString(reader["Name"]);
+                    if (bookTypeName != null)
+                    {
+                        BookType bookType = new BookType(bookTypeName);
+                        bookType.Id = Convert.ToInt32(reader["BookTypeId"]);
+                        bookType.Active = Convert.ToBoolean(reader["Active"]);
+                        bookTypes.Add(bookType);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+
+            return bookTypes;
+        }
+
+        public static bool doesBookTypeExists(string Name)
+        {
+            int count = 0;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("doesBookTypeExists", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Name", Name);
+
+            try
+            {
+                conn.Open();
+                count = (int)cmd.ExecuteScalar();
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+
+            return count > 0;
         }
 
         public static bool doesAccountExists(string Email, string Phone)
