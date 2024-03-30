@@ -11,10 +11,9 @@ using System.Windows.Input;
 
 namespace Library_Application.ViewModels
 {
-    class CreateBookTypeViewModel : ViewModelBase, INotifyDataErrorInfo
+    internal class CreatePublisherViewModel : ViewModelBase, INotifyDataErrorInfo
     {
-        // public
-        public ICommand CreateBookType { get; }
+        public ICommand PublisherCreate { get; }
         public ICommand CancelCreation { get; }
 
 
@@ -35,13 +34,13 @@ namespace Library_Application.ViewModels
             }
         }
 
-        public bool BookTypeAlreadyExists
+        public bool PublisherAlreadyExists
         {
-            get => book_type_already_exists;
+            get => publisher_already_exists;
             set
             {
-                book_type_already_exists = value;
-                OnPropertyChanged(nameof(BookTypeAlreadyExists));
+                publisher_already_exists = value;
+                OnPropertyChanged(nameof(PublisherAlreadyExists));
             }
         }
 
@@ -75,19 +74,19 @@ namespace Library_Application.ViewModels
             }
         }
 
-        public CreateBookTypeViewModel(Session session, Navigation navigation)
+        public CreatePublisherViewModel(Session session, Navigation navigation)
         {
             this.session = session;
             this.navigation = navigation;
             this.name = string.Empty;
-            this.book_type_already_exists = false;
+            this.publisher_already_exists = false;
 
-            CreateBookType = new CreateEntityCommand("booktype", "create", session, navigation);
-            CancelCreation = new CreateEntityCommand("booktype", "cancel", session, navigation);
+            PublisherCreate = new CreateEntityCommand("publisher", "create", session, navigation);
+            CancelCreation = new CreateEntityCommand("publisher", "cancel", session, navigation);
         }
 
         // private
-        private bool book_type_already_exists;
+        private bool publisher_already_exists;
         private string name;
         private readonly Session session;
         private readonly Navigation navigation;

@@ -41,6 +41,32 @@ namespace Library_Application.Commands
                     navigation.currentViewModel = new ManageBookTypesViewModel(session, navigation);
                 }
             }
+            if (entity == "publisher")
+            {
+                CreatePublisherViewModel? currentViewModel = navigation.currentViewModel as CreatePublisherViewModel;
+
+                if (button == "cancel")
+                {
+                    navigation.currentViewModel = new ManagePublishersViewModel(session, navigation);
+                    return;
+                }
+
+                if (button == "create" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
+                {
+                    currentViewModel.PublisherAlreadyExists = false;
+
+                    if (DBUtils.doesPublisherExists(currentViewModel.Name))
+                    {
+                        currentViewModel.PublisherAlreadyExists = true;
+                        return;
+                    }
+
+                    Publisher publisher = new Publisher(currentViewModel.Name);
+                    publisher.store();
+
+                    navigation.currentViewModel = new ManagePublishersViewModel(session, navigation);
+                }
+            }
         }
 
         public CreateEntityCommand(string entity, string button, Session session, Navigation navigation)

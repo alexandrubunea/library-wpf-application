@@ -66,6 +66,46 @@ namespace Library_Application.Database
             return user;
         }
 
+        public static List<Publisher> retrivePublishers()
+        {
+            List<Publisher> publishers = new List<Publisher>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retrivePublishers", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string? publisherName = Convert.ToString(reader["Name"]);
+                    if (publisherName != null)
+                    {
+                        Publisher publisher = new Publisher(publisherName);
+                        publisher.Id = Convert.ToInt32(reader["PublisherId"]);
+                        publisher.Active = Convert.ToBoolean(reader["Active"]);
+                        publishers.Add(publisher);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return publishers;
+        }
+
         public static List<BookType> retriveBookTypes()
         {
             List<BookType> bookTypes = new List<BookType>();
@@ -105,6 +145,38 @@ namespace Library_Application.Database
 
 
             return bookTypes;
+        }
+
+        public static bool doesPublisherExists(string Name)
+        {
+            int count = 0;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("doesPublisherExists", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Name", Name);
+
+            try
+            {
+                conn.Open();
+                count = (int)cmd.ExecuteScalar();
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+
+            return count > 0;
         }
 
         public static bool doesBookTypeExists(string Name)

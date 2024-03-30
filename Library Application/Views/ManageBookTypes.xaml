@@ -96,6 +96,7 @@
                     Background="{StaticResource CoolDarkGreenAquaDark}"
                     Style="{StaticResource AddButton}"
                     Command="{Binding CreateBookType}"
+                    CommandParameter="{Binding}"
                     Height="60"
                     Margin="0,0,0,0"
                     VerticalAlignment="Center"
