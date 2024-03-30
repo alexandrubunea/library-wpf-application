@@ -46,6 +46,7 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border
@@ -57,7 +58,124 @@
                     Style="{StaticResource HeadTitle}"
                     Text="MANAGE AUTHORS"/>
             </Border>
+            <Grid
+                Grid.Row="1"
+                Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Search an author:"
+                    Style="{StaticResource Label}"
+                    Foreground="{StaticResource CoolWhite}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Margin="10,10,0,0"/>
+                <TextBox
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Style="{StaticResource CredentialsInput}"
+                    Text="{Binding PublisherFilter, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="350"
+                    Height="60"/>
+                <Button
+                    Content="Create Author"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Foreground="{StaticResource CoolWhite}"
+                    Background="{StaticResource CoolDarkGreenAquaDark}"
+                    Style="{StaticResource AddButton}"
+                    Command="{Binding CreatePublisher}"
+                    CommandParameter="{Binding}"
+                    Height="60"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
 
+            </Grid>
+            <ListView
+    Grid.Row="2"
+    ItemsSource="{Binding PublisherCollectionView}"
+    Background="{StaticResource CoolBlack}"
+    Foreground="{StaticResource CoolWhite}"
+    FontSize="20"
+    BorderThickness="0">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="GridViewColumnHeader">
+                                            <Border 
+                                                BorderBrush="{StaticResource CoolWhite}"
+                                                BorderThickness="0,1,0,1"
+                                                Padding="0,10,0,10"
+                                                Margin="0,0,0,10">
+                                                <TextBlock
+                                                    Foreground="{StaticResource CoolWhite}"
+                                                    FontWeight="Bold"
+                                                    FontSize="20"
+                                                    Text="{TemplateBinding Content}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Width="auto" Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="100" Header="Active" DisplayMemberBinding="{Binding Active}"/>
+                        <GridViewColumn Width="auto" Header="Actions">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button 
+                                Content="Activate"
+                                Foreground="{StaticResource CoolWhite}"
+                                Background="{StaticResource CoolDarkBlue}"
+                                Style="{StaticResource ActionButton}"
+                                Command="{Binding DataContext.ActivateCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                CommandParameter="{Binding}"/>
+                                        <Button 
+                                Content="Deactivate"
+                                Foreground="{StaticResource CoolWhite}"
+                                Background="{StaticResource CoolPinkRed}"
+                                Margin="20,0,0,0"
+                                Style="{StaticResource ActionButton}"
+                                Command="{Binding DataContext.DeactivateCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderBrush" Value="{StaticResource CoolWhite}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Grid>
+                                        <GridViewRowPresenter Margin="0,0,0,20" Content="{TemplateBinding Content}"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
     </Grid>
 </UserControl>

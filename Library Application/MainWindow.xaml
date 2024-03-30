@@ -69,6 +69,9 @@
             <DataTemplate DataType="{x:Type vms:CreatePublisherViewModel}">
                 <views:CreatePublisher/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:CreateAuthorViewModel}">
+                <views:CreateAuthor/>
+            </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>
