@@ -179,12 +179,12 @@ namespace Library_Application.ViewModels
             RegisterCommand = new RegisterCommand("register", navigation);
             BackCommand = new RegisterCommand("back", navigation);
 
-            first_name = "";
-            last_name = "";
-            email = "";
-            phone = "";
-            password = "";
-            confirm_password = "";
+            first_name = string.Empty;
+            last_name = string.Empty;
+            email = string.Empty;
+            phone = string.Empty;
+            password = string.Empty;
+            confirm_password = string.Empty;
             account_already_exists = false;
         }
 

@@ -50,11 +50,14 @@ namespace Library_Application.Models
 
         public void setActiveStatus(bool Active)
         {
+            int bitConvert = Active == true ? 1 : 0;
+
             SqlConnection conn = DBUtils.Connection;
             SqlCommand cmd = new SqlCommand("setBookTypeActiveStatus", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", Id);
-            cmd.Parameters.AddWithValue("@Active", Active);
+            cmd.Parameters.AddWithValue("@Active", bitConvert);
+
 
             try
             {

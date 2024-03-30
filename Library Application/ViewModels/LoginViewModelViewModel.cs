@@ -118,8 +118,8 @@ namespace Library_Application.ViewModels
             LoginCommand = new LoginCommand("login", navigation);
             BackCommand = new LoginCommand("back", navigation);
 
-            email = "";
-            password = "";
+            email = string.Empty;
+            password = string.Empty;
             incorrect_password = false;
             account_doesnt_exists = false;
         }
