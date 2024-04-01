@@ -82,7 +82,7 @@
                     Grid.Column="0"
                     Grid.Row="1"
                     Style="{StaticResource CredentialsInput}"
-                    Text="{Binding PublisherFilter, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding AuthorFilter, UpdateSourceTrigger=PropertyChanged}"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -95,7 +95,7 @@
                     Foreground="{StaticResource CoolWhite}"
                     Background="{StaticResource CoolDarkGreenAquaDark}"
                     Style="{StaticResource AddButton}"
-                    Command="{Binding CreatePublisher}"
+                    Command="{Binding CreateAuthor}"
                     CommandParameter="{Binding}"
                     Height="60"
                     Margin="0,0,0,0"
@@ -105,10 +105,10 @@
             </Grid>
             <ListView
     Grid.Row="2"
-    ItemsSource="{Binding PublisherCollectionView}"
+    ItemsSource="{Binding AuthorCollectionView}"
     Background="{StaticResource CoolBlack}"
     Foreground="{StaticResource CoolWhite}"
-    FontSize="20"
+    FontSize="15"
     BorderThickness="0">
                 <ListView.View>
                     <GridView>
@@ -125,7 +125,7 @@
                                                 <TextBlock
                                                     Foreground="{StaticResource CoolWhite}"
                                                     FontWeight="Bold"
-                                                    FontSize="20"
+                                                    FontSize="15"
                                                     Text="{TemplateBinding Content}"/>
                                             </Border>
                                         </ControlTemplate>
@@ -134,7 +134,9 @@
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Width="auto" Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="125" Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
+                        <GridViewColumn Width="125" Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
+                        <GridViewColumn Width="100" Header="Birthdate" DisplayMemberBinding="{Binding BirthDate}"/>
                         <GridViewColumn Width="100" Header="Active" DisplayMemberBinding="{Binding Active}"/>
                         <GridViewColumn Width="auto" Header="Actions">
                             <GridViewColumn.CellTemplate>

@@ -108,7 +108,7 @@
     ItemsSource="{Binding PublisherCollectionView}"
     Background="{StaticResource CoolBlack}"
     Foreground="{StaticResource CoolWhite}"
-    FontSize="20"
+    FontSize="15"
     BorderThickness="0">
                 <ListView.View>
                     <GridView>
@@ -125,7 +125,7 @@
                                                 <TextBlock
                                                     Foreground="{StaticResource CoolWhite}"
                                                     FontWeight="Bold"
-                                                    FontSize="20"
+                                                    FontSize="15"
                                                     Text="{TemplateBinding Content}"/>
                                             </Border>
                                         </ControlTemplate>

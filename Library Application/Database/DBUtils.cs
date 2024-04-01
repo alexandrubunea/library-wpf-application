@@ -84,11 +84,12 @@ namespace Library_Application.Database
                 {
                     string? AuthorFirstName = Convert.ToString(reader["FirstName"]);
                     string? AuthorLastName = Convert.ToString(reader["LastName"]);
-                    if (AuthorFirstName != null && AuthorLastName != null)
+                    string? AuthorBirth = Convert.ToString(reader["BirthDate"]);
+                    if (AuthorFirstName != null && AuthorLastName != null && AuthorBirth != null)
                     {
-                        DateOnly AuthorBirthDate = DateOnly.FromDateTime(Convert.ToDateTime(reader["BirthDate"]));
+                        DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(AuthorBirth));
 
-                        Author author = new Author(AuthorFirstName, AuthorLastName, AuthorBirthDate);
+                        Author author = new Author(AuthorFirstName, AuthorLastName, dateOnly.ToString("MM/dd/yyyy"));
 
                         author.Id = Convert.ToInt32(reader["AuthorId"]);
                         author.Active = Convert.ToBoolean(reader["Active"]);

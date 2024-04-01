@@ -16,10 +16,10 @@ namespace Library_Application.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateOnly BirthDate {  get; set; }
+        public string BirthDate {  get; set; }
         public bool Active { get; set; }
         
-        public Author(string FirstName, string LastName, DateOnly BirthDate)
+        public Author(string FirstName, string LastName, string BirthDate)
         {
             this.Id = -1;
             this.FirstName = FirstName;
@@ -36,7 +36,7 @@ namespace Library_Application.Models
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@FirstName", FirstName);
             cmd.Parameters.AddWithValue("@LastName", LastName);
-            cmd.Parameters.AddWithValue("@Date", BirthDate);
+            cmd.Parameters.AddWithValue("@Date", DateOnly.FromDateTime(Convert.ToDateTime(BirthDate)));
 
             try
             {
@@ -44,6 +44,35 @@ namespace Library_Application.Models
                 cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+        public void setActiveStatus(bool Active)
+        {
+            int bitConvert = Active == true ? 1 : 0;
+
+            SqlConnection conn = DBUtils.Connection;
+            SqlCommand cmd = new SqlCommand("setAuthorStatus", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", Id);
+            cmd.Parameters.AddWithValue("@Active", bitConvert);
+
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                this.Active = Active;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

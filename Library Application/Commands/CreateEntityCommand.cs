@@ -67,6 +67,32 @@ namespace Library_Application.Commands
                     navigation.currentViewModel = new ManagePublishersViewModel(session, navigation);
                 }
             }
+            if (entity == "author")
+            {
+                CreateAuthorViewModel? currentViewModel = navigation.currentViewModel as CreateAuthorViewModel;
+
+                if (button == "cancel")
+                {
+                    navigation.currentViewModel = new ManageAuthorsViewModel(session, navigation);
+                    return;
+                }
+
+                if (button == "create" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
+                {
+                    currentViewModel.AuthorAlreadyExists = false;
+
+                    if (DBUtils.doesAuthorExists(currentViewModel.FirstName, currentViewModel.LastName))
+                    {
+                        currentViewModel.AuthorAlreadyExists = true;
+                        return;
+                    }
+
+                    Author author = new Author(currentViewModel.FirstName, currentViewModel.LastName, currentViewModel.BirthDate);
+                    author.store();
+
+                    navigation.currentViewModel = new ManageAuthorsViewModel(session, navigation);
+                }
+            }
         }
 
         public CreateEntityCommand(string entity, string button, Session session, Navigation navigation)

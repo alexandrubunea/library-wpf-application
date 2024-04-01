@@ -16,6 +16,7 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -44,21 +45,14 @@
                 <TextBox
                     Grid.Row="1"
                     x:Name="input_first_name"
-                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Style="{StaticResource CredentialsInput}"/>
                 <TextBlock
                     Grid.Row="2"
-                    Text="{Binding (Validation.Errors), ElementName=input_book_type_name, Converter={StaticResource ErrorConverter}}"
+                    Text="{Binding (Validation.Errors), ElementName=input_first_name, Converter={StaticResource ErrorConverter}}"
                     Foreground="{StaticResource CoolPinkRed}"
                     HorizontalAlignment="Center"
                     Style="{StaticResource ErrorLabel}"/>
-                <TextBlock
-                    Grid.Row="2"
-                    Text="* This book type already exists."
-                    Foreground="{StaticResource CoolPinkRed}"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource ErrorLabel}"
-                    Visibility="{Binding BookTypeAlreadyExists, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
             <Grid
                 Grid.Row="1">
@@ -77,21 +71,14 @@
                 <TextBox
                     Grid.Row="1"
                     x:Name="input_last_name"
-                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Style="{StaticResource CredentialsInput}"/>
                 <TextBlock
                     Grid.Row="2"
-                    Text="{Binding (Validation.Errors), ElementName=input_book_type_name, Converter={StaticResource ErrorConverter}}"
+                    Text="{Binding (Validation.Errors), ElementName=input_last_name, Converter={StaticResource ErrorConverter}}"
                     Foreground="{StaticResource CoolPinkRed}"
                     HorizontalAlignment="Center"
                     Style="{StaticResource ErrorLabel}"/>
-                <TextBlock
-                    Grid.Row="2"
-                    Text="* This book type already exists."
-                    Foreground="{StaticResource CoolPinkRed}"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource ErrorLabel}"
-                    Visibility="{Binding BookTypeAlreadyExists, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
             <Grid
                 Grid.Row="2">
@@ -102,34 +89,31 @@
                 </Grid.RowDefinitions>
                 <TextBlock
                     Grid.Row="0"
-                    Text="Enter author's birthdate."
+                    Text="Enter author's birthdate [DD.MM.YYYY]:"
                     Foreground="{StaticResource CoolWhite}"
                     HorizontalAlignment="Center"
                     Style="{StaticResource Label}"
                     Margin="0,0,0,0"/>
                 <TextBox
                     Grid.Row="1"
-                    x:Name="input_birthdate"
-                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    x:Name="datepicker_birthday"
+                    Text="{Binding BirthDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Style="{StaticResource CredentialsInput}"/>
                 <TextBlock
                     Grid.Row="2"
-                    Text="{Binding (Validation.Errors), ElementName=input_book_type_name, Converter={StaticResource ErrorConverter}}"
+                    Text="{Binding (Validation.Errors), ElementName=datepicker_birthday, Converter={StaticResource ErrorConverter}}"
                     Foreground="{StaticResource CoolPinkRed}"
                     HorizontalAlignment="Center"
                     Style="{StaticResource ErrorLabel}"/>
-                <TextBlock
-                    Grid.Row="2"
-                    Text="* This book type already exists."
-                    Foreground="{StaticResource CoolPinkRed}"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource ErrorLabel}"
-                    Visibility="{Binding BookTypeAlreadyExists, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
-
         </Grid>
+        <TextBlock 
+                Grid.Row="1"
+                Text="* This author already exists."
+                Style="{StaticResource ErrorLabel}"
+                Visibility="{Binding AuthorAlreadyExists, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <Grid
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="0,30,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -141,7 +125,7 @@
                 Background="{StaticResource CoolDarkGreenAquaDark}"
                 Foreground="{StaticResource CoolWhite}"
                 Style="{StaticResource BigButton}"
-                Command="{Binding CreateBookType}"/>
+                Command="{Binding AuthorCreate}"/>
             <Button
                 Grid.Column="1"
                 Content="Cancel"
