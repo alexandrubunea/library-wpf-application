@@ -57,7 +57,10 @@
                     Style="{StaticResource HeadTitle}"
                     Text="MANAGE BOOKS"/>
             </Border>
-
+            <Grid
+                Grid.Row="1">
+                
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
