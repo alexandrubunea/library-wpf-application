@@ -61,7 +61,7 @@ namespace Library_Application.ViewModels
                 ClearErrors(nameof(BirthDate));
                 if (!Regex.IsMatch(birth_date, @"^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{4}$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
                 {
-                    AddError(nameof(BirthDate), "* You must introduce a date that respects the format DD.MM.YYYY !");
+                    AddError(nameof(BirthDate), "* You must introduce a date that respects the format!");
                 }
 
                 OnPropertyChanged(nameof(BirthDate));

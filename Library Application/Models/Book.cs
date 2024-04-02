@@ -51,7 +51,7 @@ namespace Library_Application.Models
             cmd_createBook.Parameters.AddWithValue("@Title", Title);
             cmd_createBook.Parameters.AddWithValue("@BookTypeId", BookType.Id);
             cmd_createBook.Parameters.AddWithValue("@PublisherId", Publisher.Id);
-            cmd_createBook.Parameters.AddWithValue("@PublishYear", PublishYear);
+            cmd_createBook.Parameters.AddWithValue("@PublishYear", DateOnly.FromDateTime(Convert.ToDateTime(PublishYear)));
             cmd_createBook.Parameters.AddWithValue("@Stock", Stock);
 
             try

@@ -32,7 +32,7 @@ namespace Library_Application.Database
             try
             {
                 conn.Open();
-                result = (int)cmd.ExecuteScalar();
+                result = Convert.ToInt32(cmd.ExecuteScalar());
 
             }
             catch (SqlException ex)
@@ -437,6 +437,38 @@ namespace Library_Application.Database
 
 
             return bookTypes;
+        }
+
+        public static bool doesBookExists(string Title)
+        {
+            int count = 0;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("doesBookExists", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Title", Title);
+
+            try
+            {
+                conn.Open();
+                count = (int)cmd.ExecuteScalar();
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+
+            return count > 0;
         }
 
         public static bool doesAuthorExists(string FirstName, string LastName)
