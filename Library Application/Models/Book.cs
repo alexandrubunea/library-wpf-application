@@ -87,8 +87,8 @@ namespace Library_Application.Models
             SqlConnection conn = DBUtils.Connection;
             SqlCommand cmd = new SqlCommand("setBookActiveStatus", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Id", Id);
-            cmd.Parameters.AddWithValue("@Active", bitConvert);
+            cmd.Parameters.AddWithValue("@BookId", Id);
+            cmd.Parameters.AddWithValue("@Status", bitConvert);
 
             try
             {

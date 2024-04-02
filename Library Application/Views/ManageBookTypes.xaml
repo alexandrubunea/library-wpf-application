@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Library_Application.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1000"
+             d:DesignHeight="700" d:DesignWidth="1500"
              Background="{StaticResource CoolBlack}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -98,9 +98,9 @@
                     Command="{Binding CreateBookType}"
                     CommandParameter="{Binding}"
                     Height="60"
-                    Margin="0,0,0,0"
+                    Margin="0,0,20,0"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Right"/>
 
             </Grid>
             <ListView

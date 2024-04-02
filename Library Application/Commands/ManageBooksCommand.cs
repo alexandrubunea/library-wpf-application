@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library_Application.ViewModels;
+using Library_Application.Models;
 
 namespace Library_Application.Commands
 {
@@ -28,13 +29,28 @@ namespace Library_Application.Commands
                 navigation.currentViewModel = new CreateBookViewModel(session, navigation);
                 return;
             }
+
+            ManageBooksViewModel? currentView = navigation.currentViewModel as ManageBooksViewModel;
+
             if (button == "activate")
             {
-
+                Book? bookFound = currentView.BooksList.FirstOrDefault(author => author.Id == (parameter as Book).Id);
+                if (bookFound != null)
+                {
+                    bookFound.setActiveStatus(true);
+                    currentView.BookCollectionView.Refresh();
+                }
+                return;
             }
             if (button == "deactivate")
             {
-
+                Book? bookFound = currentView.BooksList.FirstOrDefault(author => author.Id == (parameter as Book).Id);
+                if (bookFound != null)
+                {
+                    bookFound.setActiveStatus(false);
+                    currentView.BookCollectionView.Refresh();
+                }
+                return;
             }
         }
 
