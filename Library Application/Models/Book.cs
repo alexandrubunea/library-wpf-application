@@ -23,7 +23,7 @@ namespace Library_Application.Models
 
         public Book(string Title, string PublishYear, BookType BookType, Publisher Publisher, List<Author> Authors, int Stock)
         {
-            this.Id = DBUtils.getLastBookId();
+            this.Id = -1;
             this.Title = Title;
             this.PublishYear = PublishYear;
             this.BookType = BookType;
@@ -46,8 +46,6 @@ namespace Library_Application.Models
             SqlCommand cmd_createAuthorBook = new SqlCommand("createAuthorBook", conn);
             cmd_createAuthorBook.CommandType = CommandType.StoredProcedure;
 
-            cmd_createAuthorBook.Parameters.AddWithValue("@BookId", Id);
-
             cmd_createBook.Parameters.AddWithValue("@Title", Title);
             cmd_createBook.Parameters.AddWithValue("@BookTypeId", BookType.Id);
             cmd_createBook.Parameters.AddWithValue("@PublisherId", Publisher.Id);
@@ -62,9 +60,11 @@ namespace Library_Application.Models
                 for(int i = 0; i < Authors.Count; i++)
                 {
                     cmd_createAuthorBook.Parameters.AddWithValue("@AuthorId", Authors[i].Id);
+                    cmd_createAuthorBook.Parameters.AddWithValue("@BookId", Id);
                     cmd_createAuthorBook.Parameters.AddWithValue("@NumberInList", i);
 
                     cmd_createAuthorBook.ExecuteNonQuery();
+                    cmd_createAuthorBook.Parameters.Clear();
                 }
             }
             catch (Exception ex)

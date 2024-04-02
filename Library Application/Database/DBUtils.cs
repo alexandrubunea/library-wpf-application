@@ -274,7 +274,7 @@ namespace Library_Application.Database
             List<Book> books = new List<Book>();
 
             SqlConnection conn = Connection;
-            SqlCommand cmd = new SqlCommand("retriveAuthors", conn);
+            SqlCommand cmd = new SqlCommand("retriveBooks", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             try
@@ -284,16 +284,20 @@ namespace Library_Application.Database
 
                 while (reader.Read())
                 {
+                    int? bookId = Convert.ToInt32(reader["BookId"]);
+                    BookType? bookType = getBookType(Convert.ToInt32(reader["BookTypeId"]));
+                    Models.Publisher? publisher = getPublisher(Convert.ToInt32(reader["PublisherId"]));
                     string? bookTitle = Convert.ToString(reader["Title"]);
                     string? bookPublishYear = Convert.ToString(reader["PublishYear"]);
                     int? bookStock = Convert.ToInt32(reader["Stock"]);
-                    int? bookId = Convert.ToInt32(reader["BookId"]);
-                    BookType? bookType = getBookType(Convert.ToInt32(reader["BookTypeId"]));
-                    Models.Publisher? publisher = getPublisher(Convert.ToInt32(reader["Publisher"]));
+                    bool bookActive = Convert.ToBoolean(reader["Active"]);
                     List<Author> authorList = new List<Author>(getBookAuthors((int) bookId));
 
                     if(bookTitle != null && bookPublishYear != null && bookType != null && publisher != null && bookStock != null) {
-                        books.Add(new Book(bookTitle, bookPublishYear, bookType, publisher, authorList, (int) bookStock));
+                        Book book = new Book(bookTitle, bookPublishYear, bookType, publisher, authorList, (int)bookStock);
+                        book.Active = bookActive;
+                        book.Id = (int) bookId;
+                        books.Add(book);
                     }
 
                 }

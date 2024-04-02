@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Library_Application.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1000"
+             d:DesignHeight="700" d:DesignWidth="1500"
              Background="{StaticResource CoolBlack}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -82,7 +82,7 @@
                     Grid.Column="0"
                     Grid.Row="1"
                     Style="{StaticResource CredentialsInput}"
-                    Text="{Binding BookTypesFilter, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding BookFilter, UpdateSourceTrigger=PropertyChanged}"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -98,14 +98,14 @@
                     Command="{Binding CreateBook}"
                     CommandParameter="{Binding}"
                     Height="60"
-                    Margin="0,0,0,0"
+                    Margin="0,0,20,0"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Right"/>
 
             </Grid>
             <ListView
     Grid.Row="2"
-    ItemsSource="{Binding BookTypesCollectionView}"
+    ItemsSource="{Binding BookCollectionView}"
     Background="{StaticResource CoolBlack}"
     Foreground="{StaticResource CoolWhite}"
     FontSize="15"
@@ -134,8 +134,35 @@
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Width="auto" Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Width="100" Header="Active" DisplayMemberBinding="{Binding Active}"/>
+                        <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn Width="auto" Header="Publisher" DisplayMemberBinding="{Binding Publisher.Name}"/>
+                        <GridViewColumn Width="auto" Header="Type" DisplayMemberBinding="{Binding BookType.Name}"/>
+                        <GridViewColumn Width="auto" Header="Authors">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ListBox ItemsSource="{Binding Authors}" Background="{StaticResource CoolBlack}" Foreground="{StaticResource CoolWhite}" BorderBrush="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                                <Setter Property="Padding" Value="0"/>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel 
+                                                    Orientation="Horizontal"
+                                                    Background="{StaticResource CoolBlack}">
+                                                    <TextBlock Text="{Binding FirstName}" Foreground="{StaticResource CoolWhite}" Background="{StaticResource CoolBlack}" />
+                                                    <TextBlock Text=" " Background="{StaticResource CoolBlack}"/>
+                                                    <TextBlock Text="{Binding LastName}" Foreground="{StaticResource CoolWhite}" Background="{StaticResource CoolBlack}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="70" Header="Active" DisplayMemberBinding="{Binding Active}"/>
                         <GridViewColumn Width="auto" Header="Actions">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

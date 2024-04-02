@@ -121,6 +121,7 @@ namespace Library_Application.Commands
                             new List<Author>(currentViewModel.Authors),
                             Convert.ToInt32(currentViewModel.Stock)
                         );
+                    book.Id = DBUtils.getLastBookId() + 1;
                     book.store();
 
                     navigation.currentViewModel = new ManageBooksViewModel(session, navigation);
