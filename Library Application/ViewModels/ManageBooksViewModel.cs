@@ -54,13 +54,13 @@ namespace Library_Application.ViewModels
             BookCollectionView = CollectionViewSource.GetDefaultView(books_list);
 
             book_filter = string.Empty;
-            BookCollectionView.Filter = FilterBookTypes;
+            BookCollectionView.Filter = FilterBooks;
         }
 
         // private
         private ObservableCollection<Book> books_list;
         private string book_filter;
-        private bool FilterBookTypes(object obj)
+        private bool FilterBooks(object obj)
         {
             if (obj is Book book)
             {

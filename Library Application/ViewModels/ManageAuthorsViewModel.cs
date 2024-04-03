@@ -54,13 +54,13 @@ namespace Library_Application.ViewModels
             AuthorCollectionView = CollectionViewSource.GetDefaultView(author_list);
 
             author_filter = string.Empty;
-            AuthorCollectionView.Filter = FilterBookTypes;
+            AuthorCollectionView.Filter = FilterAuthors;
         }
 
         // private
         private ObservableCollection<Author> author_list;
         private string author_filter;
-        private bool FilterBookTypes(object obj)
+        private bool FilterAuthors(object obj)
         {
             if (obj is Author author)
             {

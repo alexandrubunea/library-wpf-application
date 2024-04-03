@@ -227,6 +227,47 @@ namespace Library_Application.Database
             return author;
         }
 
+        public static List<RestrictedDataUser> retriveUsers()
+        {
+            List<RestrictedDataUser > users = new List<RestrictedDataUser>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveUsers", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? userId = Convert.ToInt32(reader["UserId"]);
+                    string? userFirstName = Convert.ToString(reader["FirstName"]);
+                    string? userLastName = Convert.ToString(reader["LastName"]);
+                    string? userEmail = Convert.ToString(reader["Email"]);
+                    string? userPhone = Convert.ToString(reader["Phone"]);
+                    bool userActive = Convert.ToBoolean(reader["Active"]);
+
+                    if(userId != null && userFirstName != null && userLastName != null && userEmail != null && userPhone != null)
+                        users.Add(new RestrictedDataUser((int) userId, userFirstName, userLastName, userEmail, userPhone, userActive));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return users;
+        }
+
         public static List<Author> getBookAuthors(int id)
         {
             List<Author> bookAuthors = new List<Author>();

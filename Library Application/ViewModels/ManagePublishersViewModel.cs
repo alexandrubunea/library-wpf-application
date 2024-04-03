@@ -54,14 +54,14 @@ namespace Library_Application.ViewModels
             PublisherCollectionView = CollectionViewSource.GetDefaultView(publisher_list);
 
             publisher_filter = string.Empty;
-            PublisherCollectionView.Filter = FilterBookTypes;
+            PublisherCollectionView.Filter = FilterPublisher;
         }
 
 
         // private
         private ObservableCollection<Publisher> publisher_list;
         private string publisher_filter;
-        private bool FilterBookTypes(object obj)
+        private bool FilterPublisher(object obj)
         {
             if (obj is Publisher publisher)
             {
