@@ -310,6 +310,57 @@ namespace Library_Application.Database
             return bookAuthors;
         }
 
+        public static List<Book> retriveActiveBooks()
+        {
+            List<Book> books = new List<Book>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveActiveBooks", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? bookId = Convert.ToInt32(reader["BookId"]);
+                    BookType? bookType = getBookType(Convert.ToInt32(reader["BookTypeId"]));
+                    Models.Publisher? publisher = getPublisher(Convert.ToInt32(reader["PublisherId"]));
+                    string? bookTitle = Convert.ToString(reader["Title"]);
+                    string? bookPublishYear = Convert.ToString(reader["PublishYear"]);
+                    int? bookStock = Convert.ToInt32(reader["Stock"]);
+                    bool bookActive = Convert.ToBoolean(reader["Active"]);
+                    List<Author> authorList = new List<Author>(getBookAuthors((int)bookId));
+
+                    if (bookTitle != null && bookPublishYear != null && bookType != null && publisher != null && bookStock != null)
+                    {
+                        DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(bookPublishYear));
+
+                        Book book = new Book(bookTitle, dateOnly.ToString("dd/MM/yyyy"), bookType, publisher, authorList, (int)bookStock);
+                        book.Active = bookActive;
+                        book.Id = (int)bookId;
+                        books.Add(book);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return books;
+        }
+
         public static List<Book> retriveBooks()
         {
             List<Book> books = new List<Book>();
@@ -335,7 +386,9 @@ namespace Library_Application.Database
                     List<Author> authorList = new List<Author>(getBookAuthors((int) bookId));
 
                     if(bookTitle != null && bookPublishYear != null && bookType != null && publisher != null && bookStock != null) {
-                        Book book = new Book(bookTitle, bookPublishYear, bookType, publisher, authorList, (int)bookStock);
+                        DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(bookPublishYear));
+
+                        Book book = new Book(bookTitle, dateOnly.ToString("dd/MM/yyyy"), bookType, publisher, authorList, (int)bookStock);
                         book.Active = bookActive;
                         book.Id = (int) bookId;
                         books.Add(book);
@@ -380,7 +433,7 @@ namespace Library_Application.Database
                     {
                         DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(AuthorBirth));
 
-                        Author author = new Author(AuthorFirstName, AuthorLastName, dateOnly.ToString("MM/dd/yyyy"));
+                        Author author = new Author(AuthorFirstName, AuthorLastName, dateOnly.ToString("dd/MM/yyyy"));
 
                         author.Id = Convert.ToInt32(reader["AuthorId"]);
                         author.Active = Convert.ToBoolean(reader["Active"]);

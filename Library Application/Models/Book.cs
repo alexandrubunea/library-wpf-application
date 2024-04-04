@@ -20,6 +20,13 @@ namespace Library_Application.Models
         public List<Author> Authors { get; set; }
         public bool Active { get; set; }
         public int Stock { get; set; }
+        public DateTime PublishDate
+        {
+            get
+            {
+                return Convert.ToDateTime(PublishYear);
+            }
+        }
 
         public Book(string Title, string PublishYear, BookType BookType, Publisher Publisher, List<Author> Authors, int Stock)
         {
