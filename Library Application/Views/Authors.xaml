@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Library_Application.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1000"
+             d:DesignHeight="700" d:DesignWidth="1500"
              Background="{StaticResource CoolBlack}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -57,7 +57,130 @@
                     Style="{StaticResource HeadTitle}"
                     Text="AUTHORS PRESENT IN OUR LIBRARY"/>
             </Border>
-
+            <Grid
+                Grid.Row="1"
+                Margin="0,20,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid
+                        Grid.Column="0"
+                        Margin="20,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Foreground="{StaticResource CoolWhite}"
+                            Style="{StaticResource Label}"
+                            HorizontalAlignment="Left"
+                            TextAlignment="Left"
+                            Text="Search an author by its name:"/>
+                        <TextBox
+                            Grid.Row="1"
+                            Style="{StaticResource CredentialsInput}"
+                            Width="500"
+                            Text="{Binding FilterAuthor, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <Grid
+                        Grid.Column="1"
+                        Margin="20,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Foreground="{StaticResource CoolWhite}"
+                            Style="{StaticResource Label}"
+                            HorizontalAlignment="Left"
+                            TextAlignment="Left"
+                            Text="Order the results by:"/>
+                        <Grid
+                            Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox
+                                Grid.Column="0"
+                                Style="{StaticResource FilterCombo}"
+                                ItemsSource="{Binding OrderOptions}"
+                                SelectedItem="{Binding OrderAuthorBy, Mode=TwoWay}">
+                            </ComboBox>
+                            <ComboBox
+                                Margin="20,0,0,0"
+                                Grid.Column="1"
+                                Style="{StaticResource FilterCombo}"
+                                ItemsSource="{Binding OrderAscDesc}"
+                                SelectedItem="{Binding AscOrDescOrder, Mode=TwoWay}">
+                            </ComboBox>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid
+                    Grid.Row="1">
+                    <ListView
+                        Grid.Row="2"
+                        ItemsSource="{Binding AuthorCollectionView}"
+                        Background="{StaticResource CoolBlack}"
+                        Foreground="{StaticResource CoolWhite}"
+                        FontSize="15"
+                        BorderThickness="0">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="GridViewColumnHeader">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewColumnHeader">
+                                                    <Border 
+                                                        BorderBrush="{StaticResource CoolWhite}"
+                                                        BorderThickness="0,1,0,1"
+                                                        Padding="0,10,0,10"
+                                                        Margin="0,20,0,10">
+                                                        <TextBlock
+                                                            Foreground="{StaticResource CoolWhite}"
+                                                            FontWeight="Bold"
+                                                            FontSize="15"
+                                                            Text="{TemplateBinding Content}"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn Width="auto" Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
+                                <GridViewColumn Width="auto" Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
+                                <GridViewColumn Width="auto" Header="Birthdate" DisplayMemberBinding="{Binding BirthDate}"/>
+                                <GridViewColumn Width="150" Header="Number of books" DisplayMemberBinding="{Binding NumberOfBooks}"/>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="BorderBrush" Value="{StaticResource CoolWhite}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Grid>
+                                                <GridViewRowPresenter Margin="0,0,0,20" Content="{TemplateBinding Content}"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

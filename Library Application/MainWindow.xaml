@@ -26,9 +26,6 @@
             <DataTemplate DataType="{x:Type vms:AllBooksViewModel}">
                 <views:AllBooks/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vms:BookSearchViewModel}">
-                <views:BookSearch/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type vms:TypesOfBooksViewModel}">
                 <views:TypesOfBooks/>
             </DataTemplate>

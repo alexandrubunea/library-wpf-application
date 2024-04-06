@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Library_Application.Models
 {
@@ -18,7 +18,15 @@ namespace Library_Application.Models
         public string LastName { get; set; }
         public string BirthDate {  get; set; }
         public bool Active { get; set; }
-        
+        public int NumberOfBooks { get; set; }
+        public DateTime BirthDateDate
+        {
+            get
+            {
+                return Convert.ToDateTime(BirthDate);
+            }
+        }
+
         public Author(string FirstName, string LastName, string BirthDate)
         {
             this.Id = -1;
@@ -83,6 +91,11 @@ namespace Library_Application.Models
                     conn.Close();
                 }
             }
+        }
+
+        public void fetchNumberOfBooks()
+        {
+            NumberOfBooks = DBUtils.countAuthorBooks(Id);
         }
     }
 }

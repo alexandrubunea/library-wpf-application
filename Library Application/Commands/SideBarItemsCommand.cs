@@ -27,11 +27,6 @@ namespace Library_Application.Commands
                         navigation.currentViewModel = new AllBooksViewModel(session, navigation);
                         break;
                     }
-                case "SEARCH A BOOK":
-                    {
-                        navigation.currentViewModel = new BookSearchViewModel(session, navigation);
-                        break;
-                    }
                 case "TYPE OF BOOKS":
                     {
                         navigation.currentViewModel = new TypesOfBooksViewModel(session, navigation);

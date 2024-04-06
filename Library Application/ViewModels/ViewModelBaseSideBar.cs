@@ -31,7 +31,6 @@ namespace Library_Application.ViewModels
             ObservableCollection<string> items = new ObservableCollection<string>()
             {
                 "ALL BOOKS",
-                "SEARCH A BOOK",
                 "TYPE OF BOOKS",
                 "AUTHORS",
                 "PUBLISHERS",

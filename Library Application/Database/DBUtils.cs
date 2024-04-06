@@ -20,6 +20,99 @@ namespace Library_Application.Database
             get => new SqlConnection(connectionString);
         }
 
+        public static int countBookTypeBooks(int bookTypeId)
+        {
+            int result = -1;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("countBookTypeBooks", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookTypeId", bookTypeId);
+
+            try
+            {
+                conn.Open();
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return result;
+        }
+
+        public static int countAuthorBooks(int authorId)
+        {
+            int result = -1;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("countAuthorBooks", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@AuthorId", authorId);
+
+            try
+            {
+                conn.Open();
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return result;
+        }
+
+        public static int countPublisherBooks(int publisherId)
+        {
+            int result = -1;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("countPublisherBooks", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PublisherId", publisherId);
+
+            try
+            {
+                conn.Open();
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return result;
+        }
+
         public static int getLastBookId()
         {
             int result = -1;
@@ -308,6 +401,142 @@ namespace Library_Application.Database
             }
 
             return bookAuthors;
+        }
+
+        public static List<BookType> retriveActiveBookTypes()
+        {
+            List<BookType> bookTypes = new List<BookType>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveActiveBookTypes", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? bookTypeId = Convert.ToInt32(reader["BookTypeId"]);
+                    string? bookTypeTitle = Convert.ToString(reader["Name"]);
+                    bool bookTypeActive = Convert.ToBoolean(reader["Active"]);
+
+                    if (bookTypeId != null && bookTypeTitle != null)
+                    {
+                        BookType bookType = new BookType(bookTypeTitle);
+                        bookType.Active = bookTypeActive;
+                        bookType.Id = (int)bookTypeId;
+                        bookTypes.Add(bookType);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return bookTypes;
+        }
+
+        public static List<Models.Publisher> retriveActivePublishers()
+        {
+            List<Models.Publisher> publishers = new List<Models.Publisher>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveActivePublishers", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? publisherId = Convert.ToInt32(reader["PublisherId"]);
+                    string? publisherTitle = Convert.ToString(reader["Name"]);
+                    bool publisherActive = Convert.ToBoolean(reader["Active"]);
+
+                    if (publisherId != null && publisherTitle != null)
+                    {
+                        Models.Publisher publisher = new Models.Publisher(publisherTitle);
+                        publisher.Active = publisherActive;
+                        publisher.Id = (int)publisherId;
+                        publishers.Add(publisher);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return publishers;
+        }
+
+        public static List<Author> retriveActiveAuthors()
+        {
+            List<Author> authors = new List<Author>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveActiveAuthors", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? authorId = Convert.ToInt32(reader["AuthorId"]);
+                    string? authorFirstName = Convert.ToString(reader["FirstName"]);
+                    string? authorLastName = Convert.ToString(reader["LastName"]);
+                    string? authorBirthDate = Convert.ToString(reader["BirthDate"]);
+                    bool authorActive = Convert.ToBoolean(reader["Active"]);
+
+                    if (authorId != null && authorFirstName != null && authorLastName != null && authorBirthDate != null)
+                    {
+                        DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(authorBirthDate));
+
+                        Author author = new Author(authorFirstName, authorLastName, dateOnly.ToString("dd/MM/yyyy"));
+                        author.Active = authorActive;
+                        author.Id = (int) authorId;
+                        authors.Add(author);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return authors;
         }
 
         public static List<Book> retriveActiveBooks()

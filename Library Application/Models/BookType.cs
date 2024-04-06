@@ -16,6 +16,7 @@ namespace Library_Application.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; }
+        public int NumberOfBooks { get; set; }
 
         public BookType(string Name)
         {
@@ -76,6 +77,11 @@ namespace Library_Application.Models
                     conn.Close();
                 }
             }
+        }
+
+        public void fetchNumberOfBooks()
+        {
+            NumberOfBooks = DBUtils.countBookTypeBooks(Id);
         }
 
         // private
