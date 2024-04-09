@@ -70,6 +70,8 @@ namespace Library_Application.ViewModels
                 publisher.fetchNumberOfBooks();
             }
 
+            book_type_list = new ObservableCollection<BookType>(book_type_list.Where(book_type => book_type.NumberOfBooks != 0));
+
             book_type_list = new ObservableCollection<BookType>(book_type_list.OrderBy(bookType => bookType.Name));
 
             BookTypeCollectionView = CollectionViewSource.GetDefaultView(book_type_list);

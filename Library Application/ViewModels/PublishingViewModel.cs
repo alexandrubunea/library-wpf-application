@@ -75,6 +75,8 @@ namespace Library_Application.ViewModels
                 publisher.fetchNumberOfBooks();
             }
 
+            publishers_list = new ObservableCollection<Publisher>(publishers_list.Where(publisher => publisher.NumberOfBooks != 0));
+
             publishers_list = new ObservableCollection<Publisher>(publishers_list.OrderBy(publisher => publisher.Name));
 
             PublisherCollectionView = CollectionViewSource.GetDefaultView(publishers_list);

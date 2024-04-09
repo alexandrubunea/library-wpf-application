@@ -75,6 +75,8 @@ namespace Library_Application.ViewModels
                 author.fetchNumberOfBooks();
             }
 
+            authors_list = new ObservableCollection<Author>(authors_list.Where(author => author.NumberOfBooks != 0));
+
             authors_list = new ObservableCollection<Author>(authors_list.OrderBy(author => author.FirstName));
 
             AuthorCollectionView = CollectionViewSource.GetDefaultView(authors_list);
