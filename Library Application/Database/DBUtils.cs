@@ -20,6 +20,58 @@ namespace Library_Application.Database
             get => new SqlConnection(connectionString);
         }
 
+        public static void decreaseBookStock(int BookId)
+        {
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("decreaseBookStock", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookId", BookId);
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static void increaseBookStock(int BookId)
+        {
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("increaseBookStock", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookId", BookId);
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public static int countBookTypeBooks(int bookTypeId)
         {
             int result = -1;
@@ -298,7 +350,7 @@ namespace Library_Application.Database
                     {
                         DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(AuthorBirth));
 
-                        author = new Author(AuthorFirstName, AuthorLastName, dateOnly.ToString("MM/dd/yyyy"));
+                        author = new Author(AuthorFirstName, AuthorLastName, dateOnly.ToString("dd/MM/yyyy"));
 
                         author.Id = Convert.ToInt32(reader["AuthorId"]);
                         author.Active = Convert.ToBoolean(reader["Active"]);
@@ -764,6 +816,39 @@ namespace Library_Application.Database
 
 
             return bookTypes;
+        }
+
+        public static bool doesBorrowExists(int UserId, int BookId)
+        {
+            int count = 0;
+
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("doesBorrowExists", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@BookId", BookId);
+
+            try
+            {
+                conn.Open();
+                count = (int)cmd.ExecuteScalar();
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+
+            return count > 0;
         }
 
         public static bool doesBookExists(string Title)

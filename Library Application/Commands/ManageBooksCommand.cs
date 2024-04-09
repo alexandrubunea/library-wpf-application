@@ -44,7 +44,7 @@ namespace Library_Application.Commands
             }
             if (button == "deactivate")
             {
-                Book? bookFound = currentView.BooksList.FirstOrDefault(author => author.Id == (parameter as Book).Id);
+                Book? bookFound = currentView.BooksList.FirstOrDefault(book => book.Id == (parameter as Book).Id);
                 if (bookFound != null)
                 {
                     bookFound.setActiveStatus(false);

@@ -1,4 +1,5 @@
-﻿using Library_Application.Database;
+﻿using Library_Application.Commands;
+using Library_Application.Database;
 using Library_Application.Models;
 using Library_Application.Stores;
 using System;
@@ -9,11 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Library_Application.ViewModels
 {
     class AllBooksViewModel : ViewModelBaseSideBar
     {
+        public ICommand BorrowBook { get; set; }
         public string FilterBook
         {
             get => filter_book;
@@ -61,6 +64,8 @@ namespace Library_Application.ViewModels
 
         public AllBooksViewModel(Session session, Navigation navigation) : base(session, navigation)
         {
+            BorrowBook = new BookCommand("borrow", session, navigation);
+
             filter_book = string.Empty;
             order_book_by = "Title";
             asc_or_desc_order = "Ascending";

@@ -58,6 +58,12 @@ namespace Library_Application.Models
                 }
             }
         }
+        // static methods
+        public static RestrictedDataUser ConvertUserToRDUser(User user)
+        {
+            RestrictedDataUser result = new RestrictedDataUser(user.Id, user.FirstName, user.LastName, user.Email, user.Phone, user.Active);
+            return result;
+        }
         // private
     }
 }

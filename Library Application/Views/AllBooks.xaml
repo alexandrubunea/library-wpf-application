@@ -187,7 +187,22 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Width="100" Header="Publish date" DisplayMemberBinding="{Binding PublishYear}"/>
-                                <GridViewColumn Width="auto" Header="Stock" DisplayMemberBinding="{Binding Stock}"/>
+                                <GridViewColumn Width="70" Header="Stock" DisplayMemberBinding="{Binding Stock}"/>
+                                <GridViewColumn Width="auto" Header="Actions">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button 
+                                                Content="Borrow"
+                                                Foreground="{StaticResource CoolWhite}"
+                                                Background="{StaticResource CoolDarkBlue}"
+                                                Style="{StaticResource ActionButton}"
+                                                Command="{Binding DataContext.BorrowBook, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                CommandParameter="{Binding}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                         <ListView.ItemContainerStyle>
