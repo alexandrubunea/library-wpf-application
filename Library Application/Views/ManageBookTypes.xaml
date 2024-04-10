@@ -104,12 +104,12 @@
 
             </Grid>
             <ListView
-    Grid.Row="2"
-    ItemsSource="{Binding BookTypesCollectionView}"
-    Background="{StaticResource CoolBlack}"
-    Foreground="{StaticResource CoolWhite}"
-    FontSize="15"
-    BorderThickness="0">
+                Grid.Row="2"
+                ItemsSource="{Binding BookTypesCollectionView}"
+                Background="{StaticResource CoolBlack}"
+                Foreground="{StaticResource CoolWhite}"
+                FontSize="15"
+                BorderThickness="0">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>

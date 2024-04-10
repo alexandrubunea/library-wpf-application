@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Library_Application.Models;
 using System.Security.Policy;
 using Library_Application.Views;
+using Microsoft.VisualBasic.ApplicationServices;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library_Application.Database
 {
@@ -195,7 +197,7 @@ namespace Library_Application.Database
             return result;
         }
 
-        public static User? retriveUserData(int Id)
+        public static Models.User? retriveUserData(int Id)
         {
             SqlConnection conn = Connection;
 
@@ -203,7 +205,7 @@ namespace Library_Application.Database
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", Id);
 
-            User? user = null;
+            Models.User? user = null;
 
             try
             {
@@ -219,7 +221,7 @@ namespace Library_Application.Database
                     bool active = reader.GetBoolean(5);
                     int acccesLevel = reader.GetInt32(6);
 
-                    user = new User(
+                    user = new Models.User(
                             firstName,
                             lastName,
                             email,
@@ -370,6 +372,188 @@ namespace Library_Application.Database
             }
 
             return author;
+        }
+
+        public static RestrictedDataUser getUserById(int UserId)
+        {
+            RestrictedDataUser user = new RestrictedDataUser(UserId, string.Empty, string.Empty, string.Empty, string.Empty, false);
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("getUserById", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    string? userFirstName = Convert.ToString(reader["FirstName"]);
+                    string? userLastName = Convert.ToString(reader["LastName"]);
+                    string? userEmail = Convert.ToString(reader["Email"]);
+                    string? userPhone = Convert.ToString(reader["Phone"]);
+                    bool userActive = Convert.ToBoolean(reader["Active"]);
+
+                    if (userFirstName != null && userLastName != null && userEmail != null && userPhone != null)
+                        user = new RestrictedDataUser(UserId, userFirstName, userLastName, userEmail, userPhone, userActive);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return user;
+        }
+
+        public static Book getBookById(int BookId)
+        {
+            Book book = new Book(string.Empty, string.Empty, new BookType(string.Empty), new Models.Publisher(string.Empty), new List<Author>(), 0);
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("getBookById", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookId", BookId);
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    int? bookId = Convert.ToInt32(reader["BookId"]);
+                    BookType? bookType = getBookType(Convert.ToInt32(reader["BookTypeId"]));
+                    Models.Publisher? publisher = getPublisher(Convert.ToInt32(reader["PublisherId"]));
+                    string? bookTitle = Convert.ToString(reader["Title"]);
+                    string? bookPublishYear = Convert.ToString(reader["PublishYear"]);
+                    int? bookStock = Convert.ToInt32(reader["Stock"]);
+                    bool bookActive = Convert.ToBoolean(reader["Active"]);
+                    List<Author> authorList = new List<Author>(getBookAuthors((int)bookId));
+
+                    if (bookTitle != null && bookPublishYear != null && bookType != null && publisher != null && bookStock != null)
+                    {
+                        DateOnly dateOnly = DateOnly.FromDateTime(Convert.ToDateTime(bookPublishYear));
+
+                        book = new Book(bookTitle, dateOnly.ToString("dd/MM/yyyy"), bookType, publisher, authorList, (int)bookStock);
+                        book.Active = bookActive;
+                        book.Id = (int)bookId;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return book;
+        }
+
+        public static List<UserBook> getUserBorrows(int UserId)
+        {
+            List<UserBook> borrows = new List<UserBook>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("getUserBooks", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? id = Convert.ToInt32(reader["Id"]);
+                    RestrictedDataUser? user = getUserById(Convert.ToInt32(reader["UserId"]));
+                    Book? book = getBookById(Convert.ToInt32(reader["BookId"]));
+                    string? startDate = Convert.ToDateTime(reader["StartDate"]).ToString("dd/MM/yyyy");
+                    string? returnDate = Convert.ToDateTime(reader["ReturnDate"]).ToString("dd/MM/yyyy");
+                    bool active = Convert.ToBoolean(reader["Active"]);
+
+                    if(id != null && user != null && book != null && startDate != null && returnDate != null)
+                    {
+                        UserBook borrow = new UserBook(user, book, startDate, returnDate);
+                        borrow.Id = (int) id;
+                        borrows.Add(borrow);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return borrows;
+        }
+
+        public static List<UserBook> retriveBookBorrows()
+        {
+            List<UserBook> borrows = new List<UserBook>();
+
+            SqlConnection conn = Connection;
+            SqlCommand cmd = new SqlCommand("retriveUserBook", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int? id = Convert.ToInt32(reader["Id"]);
+                    RestrictedDataUser? user = getUserById(Convert.ToInt32(reader["UserId"]));
+                    Book? book = getBookById(Convert.ToInt32(reader["BookId"]));
+                    string? startDate = Convert.ToDateTime(reader["StartDate"]).ToString("dd/MM/yyyy");
+                    string? returnDate = Convert.ToDateTime(reader["ReturnDate"]).ToString("dd/MM/yyyy");
+                    bool active = Convert.ToBoolean(reader["Active"]);
+
+                    if (id != null && user != null && book != null && startDate != null && returnDate != null)
+                    {
+                        UserBook borrow = new UserBook(user, book, startDate, returnDate);
+                        borrow.Id = (int)id;
+                        borrows.Add(borrow);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return borrows;
         }
 
         public static List<RestrictedDataUser> retriveUsers()
@@ -624,7 +808,6 @@ namespace Library_Application.Database
                         book.Id = (int)bookId;
                         books.Add(book);
                     }
-
                 }
             }
             catch (Exception ex)
