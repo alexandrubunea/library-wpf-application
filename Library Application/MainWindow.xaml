@@ -75,6 +75,9 @@
             <DataTemplate DataType="{x:Type vms:EditBookViewModel}">
                 <views:EditBook/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:EditAuthorViewModel}">
+                <views:EditAuthor/>
+            </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>

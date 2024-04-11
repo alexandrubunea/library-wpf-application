@@ -19,6 +19,7 @@ namespace Library_Application.ViewModels
         public ICommand CreateAuthor { get; }
         public ICommand ActivateCommand { get; }
         public ICommand DeactivateCommand { get; }
+        public ICommand EditCommand { get; }
 
 
         public ObservableCollection<Author> AuthorList
@@ -49,6 +50,7 @@ namespace Library_Application.ViewModels
             CreateAuthor = new ManageAuthorsCommand(session, navigation, "create");
             ActivateCommand = new ManageAuthorsCommand(session, navigation, "activate");
             DeactivateCommand = new ManageAuthorsCommand(session, navigation, "deactivate");
+            EditCommand = new ManageAuthorsCommand(session, navigation, "edit");
 
             author_list = new ObservableCollection<Author>(DBUtils.retriveAuthors());
             AuthorCollectionView = CollectionViewSource.GetDefaultView(author_list);

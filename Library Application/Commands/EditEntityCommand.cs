@@ -69,7 +69,7 @@ namespace Library_Application.Commands
             }
             if (entity == "author")
             {
-                CreateAuthorViewModel? currentViewModel = navigation.currentViewModel as CreateAuthorViewModel;
+                EditAuthorViewModel? currentViewModel = navigation.currentViewModel as EditAuthorViewModel;
 
                 if (button == "cancel")
                 {
@@ -77,18 +77,16 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if (button == "create" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
+                if (button == "edit" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
                 {
                     currentViewModel.AuthorAlreadyExists = false;
 
-                    if (DBUtils.doesAuthorExists(currentViewModel.FirstName, currentViewModel.LastName))
-                    {
-                        currentViewModel.AuthorAlreadyExists = true;
-                        return;
-                    }
 
-                    Author author = new Author(currentViewModel.FirstName, currentViewModel.LastName, currentViewModel.BirthDate);
-                    author.store();
+                    currentViewModel.Author.FirstName = currentViewModel.FirstName;
+                    currentViewModel.Author.LastName = currentViewModel.LastName;
+                    currentViewModel.Author.BirthDate = currentViewModel.BirthDate;
+
+                    currentViewModel.Author.update();
 
                     navigation.currentViewModel = new ManageAuthorsViewModel(session, navigation);
                 }

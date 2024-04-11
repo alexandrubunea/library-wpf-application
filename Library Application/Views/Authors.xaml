@@ -158,9 +158,9 @@
                                         </Setter>
                                     </Style>
                                 </GridView.ColumnHeaderContainerStyle>
-                                <GridViewColumn Width="auto" Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
-                                <GridViewColumn Width="auto" Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
-                                <GridViewColumn Width="auto" Header="Birthdate" DisplayMemberBinding="{Binding BirthDate}"/>
+                                <GridViewColumn Width="200" Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
+                                <GridViewColumn Width="200" Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
+                                <GridViewColumn Width="150" Header="Birthdate" DisplayMemberBinding="{Binding BirthDate}"/>
                                 <GridViewColumn Width="150" Header="Number of books" DisplayMemberBinding="{Binding NumberOfBooks}"/>
                             </GridView>
                         </ListView.View>

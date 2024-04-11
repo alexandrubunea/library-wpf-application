@@ -142,20 +142,28 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Button 
-                                Content="Activate"
-                                Foreground="{StaticResource CoolWhite}"
-                                Background="{StaticResource CoolDarkBlue}"
-                                Style="{StaticResource ActionButton}"
-                                Command="{Binding DataContext.ActivateCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-                                CommandParameter="{Binding}"/>
+                                        Content="Activate"
+                                        Foreground="{StaticResource CoolWhite}"
+                                        Background="{StaticResource CoolDarkBlue}"
+                                        Style="{StaticResource ActionButton}"
+                                        Command="{Binding DataContext.ActivateCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                        CommandParameter="{Binding}"/>
                                         <Button 
-                                Content="Deactivate"
-                                Foreground="{StaticResource CoolWhite}"
-                                Background="{StaticResource CoolPinkRed}"
-                                Margin="20,0,0,0"
-                                Style="{StaticResource ActionButton}"
-                                Command="{Binding DataContext.DeactivateCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-                                CommandParameter="{Binding}"/>
+                                        Content="Deactivate"
+                                        Foreground="{StaticResource CoolWhite}"
+                                        Background="{StaticResource CoolPinkRed}"
+                                        Margin="20,0,0,0"
+                                        Style="{StaticResource ActionButton}"
+                                        Command="{Binding DataContext.DeactivateCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                        CommandParameter="{Binding}"/>
+                                        <Button 
+                                        Content="Edit"
+                                        Foreground="{StaticResource CoolWhite}"
+                                        Background="{StaticResource CoolDarkGreenAquaDark}"
+                                        Margin="20,0,0,0"
+                                        Style="{StaticResource ActionButton}"
+                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                        CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
