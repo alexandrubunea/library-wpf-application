@@ -89,7 +89,7 @@
                                     </Setter>
                                 </Style>
                             </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn Width="150" Header="Title" DisplayMemberBinding="{Binding Book.Title}"/>
+                            <GridViewColumn Width="250" Header="Title" DisplayMemberBinding="{Binding Book.Title}"/>
                             <GridViewColumn Width="110" Header="Borrowed on" DisplayMemberBinding="{Binding StartDate}"/>
                             <GridViewColumn Width="110" Header="Return until" DisplayMemberBinding="{Binding ReturnDate}"/>
                             <GridViewColumn Width="auto" Header="Actions">
