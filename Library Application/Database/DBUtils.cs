@@ -271,7 +271,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -313,7 +313,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -359,7 +359,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -400,7 +400,7 @@ namespace Library_Application.Database
                         user = new RestrictedDataUser(UserId, userFirstName, userLastName, userEmail, userPhone, userActive);
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -431,14 +431,13 @@ namespace Library_Application.Database
 
                 if (reader.Read())
                 {
-                    int? bookId = Convert.ToInt32(reader["BookId"]);
                     BookType? bookType = getBookType(Convert.ToInt32(reader["BookTypeId"]));
                     Models.Publisher? publisher = getPublisher(Convert.ToInt32(reader["PublisherId"]));
                     string? bookTitle = Convert.ToString(reader["Title"]);
                     string? bookPublishYear = Convert.ToString(reader["PublishYear"]);
                     int? bookStock = Convert.ToInt32(reader["Stock"]);
                     bool bookActive = Convert.ToBoolean(reader["Active"]);
-                    List<Author> authorList = new List<Author>(getBookAuthors((int)bookId));
+                    List<Author> authorList = new List<Author>(getBookAuthors(BookId));
 
                     if (bookTitle != null && bookPublishYear != null && bookType != null && publisher != null && bookStock != null)
                     {
@@ -446,11 +445,11 @@ namespace Library_Application.Database
 
                         book = new Book(bookTitle, dateOnly.ToString("dd/MM/yyyy"), bookType, publisher, authorList, (int)bookStock);
                         book.Active = bookActive;
-                        book.Id = (int)bookId;
+                        book.Id = BookId;
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -496,7 +495,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -541,7 +540,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -582,7 +581,7 @@ namespace Library_Application.Database
                         users.Add(new RestrictedDataUser((int) userId, userFirstName, userLastName, userEmail, userPhone, userActive));
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -624,7 +623,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -668,7 +667,7 @@ namespace Library_Application.Database
 
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -712,7 +711,7 @@ namespace Library_Application.Database
 
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -760,7 +759,7 @@ namespace Library_Application.Database
 
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -810,7 +809,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -860,7 +859,7 @@ namespace Library_Application.Database
 
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -905,7 +904,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -945,7 +944,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -985,7 +984,7 @@ namespace Library_Application.Database
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }

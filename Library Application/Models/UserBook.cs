@@ -19,6 +19,13 @@ namespace Library_Application.Models
         public string StartDate { get; set; }
         public string ReturnDate { get; set; }
         public bool Active { get; set; }
+        public DateTime DateForOrgz
+        {
+            get
+            {
+                return Convert.ToDateTime(ReturnDate);
+            }
+        }
 
         public UserBook(RestrictedDataUser user, Book book, string startDate, string returnDate)
         {

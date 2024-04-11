@@ -74,10 +74,10 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="GridViewColumnHeader">
                                                 <Border 
-                                    BorderBrush="{StaticResource CoolWhite}"
-                                    BorderThickness="0,1,0,1"
-                                    Padding="0,10,0,10"
-                                    Margin="0,0,0,10">
+                                                    BorderBrush="{StaticResource CoolWhite}"
+                                                    BorderThickness="0,0,0,1"
+                                                    Padding="0,10,0,10"
+                                                    Margin="0,0,0,10">  
                                                     <TextBlock
                                         Foreground="{StaticResource CoolWhite}"
                                         FontWeight="Bold"
@@ -89,9 +89,9 @@
                                     </Setter>
                                 </Style>
                             </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding Book.Title}"/>
-                            <GridViewColumn Width="150" Header="Borrowed on" DisplayMemberBinding="{Binding StartDate}"/>
-                            <GridViewColumn Width="150" Header="Return until" DisplayMemberBinding="{Binding ReturnDate}"/>
+                            <GridViewColumn Width="150" Header="Title" DisplayMemberBinding="{Binding Book.Title}"/>
+                            <GridViewColumn Width="110" Header="Borrowed on" DisplayMemberBinding="{Binding StartDate}"/>
+                            <GridViewColumn Width="110" Header="Return until" DisplayMemberBinding="{Binding ReturnDate}"/>
                             <GridViewColumn Width="auto" Header="Actions">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
