@@ -20,6 +20,7 @@ namespace Library_Application.ViewModels
         public ICommand CreateBookType { get; }
         public ICommand ActivateCommand { get; }
         public ICommand DeactivateCommand { get; }
+        public ICommand EditCommand { get; }
 
         public ObservableCollection<BookType> BookTypesList
         {
@@ -49,6 +50,7 @@ namespace Library_Application.ViewModels
             CreateBookType = new ManageBookTypesCommand("create", session, navigation);
             ActivateCommand = new ManageBookTypesCommand("activate", session, navigation);
             DeactivateCommand = new ManageBookTypesCommand("deactivate", session, navigation);
+            EditCommand = new ManageBookTypesCommand("edit", session, navigation);
 
             book_type_list = new ObservableCollection<BookType>(DBUtils.retriveBookTypes());
             BookTypesCollectionView = CollectionViewSource.GetDefaultView(book_type_list);

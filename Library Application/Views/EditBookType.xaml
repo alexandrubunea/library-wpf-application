@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Library_Application.Views.EditBookType"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_Application.Views"
+             xmlns:utils="clr-namespace:Library_Application.Utils"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000"
+             Background="{StaticResource CoolBlack}">
+    <UserControl.Resources>
+        <utils:ErrorConverter x:Key="ErrorConverter" />
+        <utils:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Text="Enter the book type name that you want to set"
+                Foreground="{StaticResource CoolWhite}"
+                HorizontalAlignment="Center"
+                Style="{StaticResource Label}"
+                Margin="0,0,0,20"/>
+            <TextBox
+                Grid.Row="1"
+                x:Name="input_book_type_name"
+                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Style="{StaticResource CredentialsInput}"/>
+            <TextBlock
+                Grid.Row="2"
+                Text="{Binding (Validation.Errors), ElementName=input_book_type_name, Converter={StaticResource ErrorConverter}}"
+                Foreground="{StaticResource CoolPinkRed}"
+                HorizontalAlignment="Center"
+                Style="{StaticResource ErrorLabel}"/>
+            <TextBlock
+                Grid.Row="2"
+                Text="* This book type already exists."
+                Foreground="{StaticResource CoolPinkRed}"
+                HorizontalAlignment="Center"
+                Style="{StaticResource ErrorLabel}"
+                Visibility="{Binding BookTypeAlreadyExists, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Margin="0,30,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Content="Edit"
+                Background="{StaticResource CoolDarkGreenAquaDark}"
+                Foreground="{StaticResource CoolWhite}"
+                Style="{StaticResource BigButton}"
+                Command="{Binding EditBookType}"/>
+            <Button
+                Grid.Column="1"
+                Content="Cancel"
+                Background="{StaticResource CoolPinkRed}"
+                Foreground="{StaticResource CoolWhite}"
+                Style="{StaticResource BigButton}"
+                Margin="20,0,0,0"
+                Command="{Binding CancelEdit}"/>
+        </Grid>
+    </Grid>
+</UserControl>

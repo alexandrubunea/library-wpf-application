@@ -20,6 +20,7 @@ namespace Library_Application.ViewModels
         public ICommand CreatePublisher { get; }
         public ICommand ActivateCommand { get; }
         public ICommand DeactivateCommand { get; }
+        public ICommand EditCommand { get; }
 
         public ObservableCollection<Publisher> PublisherList
         {
@@ -49,6 +50,7 @@ namespace Library_Application.ViewModels
             CreatePublisher = new ManagePublishersCommand("create", session, navigation);
             ActivateCommand = new ManagePublishersCommand("activate", session, navigation);
             DeactivateCommand = new ManagePublishersCommand("deactivate", session, navigation);
+            EditCommand = new ManagePublishersCommand("edit", session, navigation);
 
             publisher_list = new ObservableCollection<Publisher>(DBUtils.retrivePublishers());
             PublisherCollectionView = CollectionViewSource.GetDefaultView(publisher_list);

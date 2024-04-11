@@ -17,7 +17,7 @@ namespace Library_Application.Commands
         {
             if (entity == "booktype")
             {
-                CreateBookTypeViewModel? currentViewModel = navigation.currentViewModel as CreateBookTypeViewModel;
+                EditBookTypeViewModel? currentViewModel = navigation.currentViewModel as EditBookTypeViewModel;
 
                 if (button == "cancel")
                 {
@@ -25,25 +25,19 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if (button == "create" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
+                if (button == "edit" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
                 {
                     currentViewModel.BookTypeAlreadyExists = false;
 
-                    if (DBUtils.doesBookTypeExists(currentViewModel.Name))
-                    {
-                        currentViewModel.BookTypeAlreadyExists = true;
-                        return;
-                    }
-
-                    BookType bookType = new BookType(currentViewModel.Name);
-                    bookType.store();
+                    currentViewModel.BookType.Name = currentViewModel.Name;
+                    currentViewModel.BookType.update();
 
                     navigation.currentViewModel = new ManageBookTypesViewModel(session, navigation);
                 }
             }
             if (entity == "publisher")
             {
-                CreatePublisherViewModel? currentViewModel = navigation.currentViewModel as CreatePublisherViewModel;
+                EditPublisherViewModel? currentViewModel = navigation.currentViewModel as EditPublisherViewModel;
 
                 if (button == "cancel")
                 {
@@ -51,18 +45,12 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if (button == "create" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
+                if (button == "edit" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
                 {
                     currentViewModel.PublisherAlreadyExists = false;
 
-                    if (DBUtils.doesPublisherExists(currentViewModel.Name))
-                    {
-                        currentViewModel.PublisherAlreadyExists = true;
-                        return;
-                    }
-
-                    Publisher publisher = new Publisher(currentViewModel.Name);
-                    publisher.store();
+                    currentViewModel.Publisher.Name = currentViewModel.Name;
+                    currentViewModel.Publisher.update();
 
                     navigation.currentViewModel = new ManagePublishersViewModel(session, navigation);
                 }
