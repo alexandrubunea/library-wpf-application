@@ -63,6 +63,38 @@ namespace Library_Application.Models
                 }
             }
         }
+
+        public void update()
+        {
+            int bitConvert = Active == true ? 1 : 0;
+
+            SqlConnection conn = DBUtils.Connection;
+            SqlCommand cmd = new SqlCommand("updateAuthor", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@AuthorId", Id);
+            cmd.Parameters.AddWithValue("@FirstName", FirstName);
+            cmd.Parameters.AddWithValue("@LastName", LastName);
+            cmd.Parameters.AddWithValue("@BirthDate", BirthDateDate);
+            cmd.Parameters.AddWithValue("@Active", bitConvert);
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public void setActiveStatus(bool Active)
         {
             int bitConvert = Active == true ? 1 : 0;

@@ -40,6 +40,58 @@ namespace Library_Application.Models
             this.Stock = Stock;
         }
 
+        public void update()
+        {
+            int bitConvert = Active == true ? 1 : 0;
+
+            SqlConnection conn = DBUtils.Connection;
+            SqlCommand cmd = new SqlCommand("updateBook", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookId", Id);
+            cmd.Parameters.AddWithValue("@BookTypeId", BookType.Id);
+            cmd.Parameters.AddWithValue("@PublisherId", Publisher.Id);
+            cmd.Parameters.AddWithValue("@Title", Title);
+            cmd.Parameters.AddWithValue("@PublishYear", PublishDate);
+            cmd.Parameters.AddWithValue("@Stock", Stock);
+            cmd.Parameters.AddWithValue("@Active", bitConvert);
+
+            SqlCommand cmd_createAuthorBook = new SqlCommand("createAuthorBook", conn);
+            cmd_createAuthorBook.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                
+                if (!areAuthorsEqual(Authors, DBUtils.getBookAuthors(Id)))
+                {
+                    DBUtils.removeAuthorsForBook(Id);
+
+                    for (int i = 0; i < Authors.Count; i++)
+                    {
+                        cmd_createAuthorBook.Parameters.AddWithValue("@AuthorId", Authors[i].Id);
+                        cmd_createAuthorBook.Parameters.AddWithValue("@BookId", Id);
+                        cmd_createAuthorBook.Parameters.AddWithValue("@NumberInList", i);
+
+                        cmd_createAuthorBook.ExecuteNonQuery();
+                        cmd_createAuthorBook.Parameters.Clear();
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public void store()
         {
             if (Id == -1)
@@ -74,7 +126,7 @@ namespace Library_Application.Models
                     cmd_createAuthorBook.Parameters.Clear();
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -103,7 +155,7 @@ namespace Library_Application.Models
                 cmd.ExecuteNonQuery();
                 this.Active = Active;
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -117,5 +169,17 @@ namespace Library_Application.Models
         }
 
         // private
+        private bool areAuthorsEqual(List<Author> list1, List<Author> list2)
+        {
+            if(list1.Count != list2.Count) 
+                return false;
+
+            for (int i = 0; i < list1.Count; i++)
+                if (list1[i].Id != list2[i].Id)
+                    return false;
+
+
+            return true;
+        }
     }
 }

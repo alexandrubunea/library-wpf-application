@@ -21,6 +21,7 @@ namespace Library_Application.ViewModels
         public ICommand CreateBook { get; }
         public ICommand ActivateCommand { get; }
         public ICommand DeactivateCommand { get; }
+        public ICommand EditCommand { get; }
 
         public ObservableCollection<Book> BooksList
         {
@@ -49,6 +50,7 @@ namespace Library_Application.ViewModels
             CreateBook = new ManageBooksCommand(session, navigation, "create");
             ActivateCommand = new ManageBooksCommand(session, navigation, "activate");
             DeactivateCommand = new ManageBooksCommand(session, navigation, "deactivate");
+            EditCommand = new ManageBooksCommand(session, navigation, "edit");
 
             books_list = new ObservableCollection<Book>(DBUtils.retriveBooks());
             BookCollectionView = CollectionViewSource.GetDefaultView(books_list);

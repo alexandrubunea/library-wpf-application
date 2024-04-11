@@ -22,6 +22,32 @@ namespace Library_Application.Database
             get => new SqlConnection(connectionString);
         }
 
+        public static void removeAuthorsForBook(int BookId)
+        {
+            SqlConnection conn = Connection;
+
+            SqlCommand cmd = new SqlCommand("removeAuthorsForBook", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookId", BookId);
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public static void decreaseBookStock(int BookId)
         {
             SqlConnection conn = Connection;

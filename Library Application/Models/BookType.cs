@@ -36,7 +36,36 @@ namespace Library_Application.Models
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch(Exception ex)
+            catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void update()
+        {
+            int bitConvert = Active == true ? 1 : 0;
+
+            SqlConnection conn = DBUtils.Connection;
+            SqlCommand cmd = new SqlCommand("updateBookType", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookTypeId", Id);
+            cmd.Parameters.AddWithValue("@Name", Name);
+            cmd.Parameters.AddWithValue("@Active", bitConvert);
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -66,7 +95,7 @@ namespace Library_Application.Models
                 cmd.ExecuteNonQuery();
                 this.Active = Active;
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -52,6 +52,15 @@ namespace Library_Application.Commands
                 }
                 return;
             }
+            if(button == "edit")
+            {
+                Book? bookFound = currentView.BooksList.FirstOrDefault(book => book.Id == (parameter as Book).Id);
+
+                if (bookFound != null)
+                    navigation.currentViewModel = new EditBookViewModel(session, navigation, bookFound);
+
+                return;
+            }
         }
 
         // private
