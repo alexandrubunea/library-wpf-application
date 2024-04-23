@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Library_Application.Models;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,8 +14,8 @@ namespace Library_Application.ViewModels
 {
     internal class CreatePublisherViewModel : ViewModelBase, INotifyDataErrorInfo
     {
-        public ICommand PublisherCreate { get; }
-        public ICommand CancelCreation { get; }
+        public ICommand SaveButton { get; }
+        public ICommand CancelButton { get; }
 
 
         public string Name
@@ -74,15 +75,34 @@ namespace Library_Application.ViewModels
             }
         }
 
-        public CreatePublisherViewModel(Session session, Navigation navigation)
+        public Publisher Publisher
+        {
+            get => publisher;
+            set
+            {
+                publisher = value;
+                Name = publisher.Name;
+                PublisherAlreadyExists = false;
+            }
+        }
+
+        public bool EditMode
+        {
+            get => edit_mode;
+        }
+
+        public CreatePublisherViewModel(Session session, Navigation navigation, bool edit_mode=false)
         {
             this.session = session;
             this.navigation = navigation;
             this.name = string.Empty;
             this.publisher_already_exists = false;
 
-            PublisherCreate = new CreateEntityCommand("publisher", "create", session, navigation);
-            CancelCreation = new CreateEntityCommand("publisher", "cancel", session, navigation);
+            SaveButton = new CreateEntityCommand("publisher", "save", session, navigation);
+            CancelButton = new CreateEntityCommand("publisher", "cancel", session, navigation);
+
+            this.edit_mode = edit_mode;
+            publisher = new Publisher(string.Empty);
         }
 
         // private
@@ -91,6 +111,9 @@ namespace Library_Application.ViewModels
         private readonly Session session;
         private readonly Navigation navigation;
         private readonly Dictionary<string, List<string>> property_errors = new Dictionary<string, List<string>>();
+
+        private bool edit_mode;
+        private Publisher publisher;
 
         private void OnErrorsChange(string propertyName)
         {

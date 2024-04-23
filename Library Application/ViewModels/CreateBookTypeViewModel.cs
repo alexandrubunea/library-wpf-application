@@ -1,4 +1,5 @@
 ﻿using Library_Application.Commands;
+using Library_Application.Models;
 using Library_Application.Stores;
 using System;
 using System.Collections;
@@ -14,8 +15,8 @@ namespace Library_Application.ViewModels
     class CreateBookTypeViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         // public
-        public ICommand CreateBookType { get; }
-        public ICommand CancelCreation { get; }
+        public ICommand SaveButton { get; }
+        public ICommand CancelButton { get; }
 
 
         public string Name
@@ -75,15 +76,34 @@ namespace Library_Application.ViewModels
             }
         }
 
-        public CreateBookTypeViewModel(Session session, Navigation navigation)
+        public bool EditMode
+        {
+            get => edit_mode;
+        }
+
+        public BookType BookType
+        {
+            get => book_type;
+            set
+            {
+                book_type = value;
+                Name = book_type.Name;
+                BookTypeAlreadyExists = false;
+            }
+        }
+
+        public CreateBookTypeViewModel(Session session, Navigation navigation, bool edit_mode=false)
         {
             this.session = session;
             this.navigation = navigation;
             this.name = string.Empty;
             this.book_type_already_exists = false;
 
-            CreateBookType = new CreateEntityCommand("booktype", "create", session, navigation);
-            CancelCreation = new CreateEntityCommand("booktype", "cancel", session, navigation);
+            SaveButton = new CreateEntityCommand("booktype", "save", session, navigation);
+            CancelButton = new CreateEntityCommand("booktype", "cancel", session, navigation);
+
+            this.edit_mode = edit_mode;
+            book_type = new BookType(string.Empty);
         }
 
         // private
@@ -92,6 +112,9 @@ namespace Library_Application.ViewModels
         private readonly Session session;
         private readonly Navigation navigation;
         private readonly Dictionary<string, List<string>> property_errors = new Dictionary<string, List<string>>();
+
+        private bool edit_mode;
+        private BookType book_type;
 
         private void OnErrorsChange(string propertyName)
         {

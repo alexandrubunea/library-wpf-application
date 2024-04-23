@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
             <TextBlock
                 Grid.Row="0"
-                Text="Enter the publishing name that you want to create"
+                Text="Enter the publishing name that you want to save:"
                 Foreground="{StaticResource CoolWhite}"
                 HorizontalAlignment="Center"
                 Style="{StaticResource Label}"
@@ -61,11 +61,11 @@
             </Grid.ColumnDefinitions>
             <Button
                 Grid.Column="0"
-                Content="Create"
+                Content="Save"
                 Background="{StaticResource CoolDarkGreenAquaDark}"
                 Foreground="{StaticResource CoolWhite}"
                 Style="{StaticResource BigButton}"
-                Command="{Binding PublisherCreate}"/>
+                Command="{Binding SaveButton}"/>
             <Button
                 Grid.Column="1"
                 Content="Cancel"
@@ -73,7 +73,7 @@
                 Foreground="{StaticResource CoolWhite}"
                 Style="{StaticResource BigButton}"
                 Margin="20,0,0,0"
-                Command="{Binding CancelCreation}"/>
+                Command="{Binding CancelButton}"/>
         </Grid>
     </Grid>
 </UserControl>

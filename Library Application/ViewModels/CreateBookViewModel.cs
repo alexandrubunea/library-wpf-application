@@ -22,8 +22,8 @@ namespace Library_Application.ViewModels
         public ICommand AddAuthor { get; }
         public ICommand RemoveAuthor { get; }
 
-        public ICommand CreateCommand { get; }
-        public ICommand CancelCommand { get; }
+        public ICommand SaveButton { get; }
+        public ICommand CancelButton { get; }
 
         public string Title
         {
@@ -113,7 +113,7 @@ namespace Library_Application.ViewModels
         {
             get => all_book_types;
         }
-        public ICollectionView CurrentAuthorsCollectionView { get; }
+        public ICollectionView CurrentAuthorsCollectionView { get; set; }
 
         public Author SelectedAllAuthor
         {
@@ -189,8 +189,43 @@ namespace Library_Application.ViewModels
                 OnErrorsChange(propertyName);
             }
         }
+        public bool EditMode
+        {
+            get => edit_mode;
+        }
 
-        public CreateBookViewModel(Session session, Navigation navigation)
+        public Book Book
+        {
+            get => book;
+            set
+            {
+                book = value;
+
+                BookAlreadyExists = false;
+
+                Title = book.Title;
+                PublishDate = book.PublishYear;
+                Stock = Convert.ToString(book.Stock);
+
+#pragma warning disable CS8601 // Possible null reference assignment.
+                BookType = all_book_types.FirstOrDefault(book_type => book_type.Id == book.BookType.Id);
+                Publisher = all_publishers.FirstOrDefault(publisher => publisher.Id == book.Publisher.Id);
+#pragma warning restore CS8601 // Possible null reference assignment.
+
+                if (book_type == null)
+                    book_type = new BookType(string.Empty);
+                if (publisher == null)
+                    publisher = new Publisher(string.Empty);
+
+                Authors = new ObservableCollection<Author>(book.Authors);
+                CurrentAuthorsCollectionView = CollectionViewSource.GetDefaultView(authors);
+                CurrentAuthorsCollectionView.Refresh();
+
+                book_already_exists = false;
+            }
+        }
+
+        public CreateBookViewModel(Session session, Navigation navigation, bool edit_mode=false)
         {
             this.session = session;
             this.navigation = navigation;
@@ -216,8 +251,18 @@ namespace Library_Application.ViewModels
             AddAuthor = new CreateBookCommand(navigation, "addauthor");
             RemoveAuthor = new CreateBookCommand(navigation, "removeauthor");
 
-            CreateCommand = new CreateEntityCommand("book", "create", session, navigation);
-            CancelCommand = new CreateEntityCommand("book", "cancel", session, navigation);
+            SaveButton = new CreateEntityCommand("book", "save", session, navigation);
+            CancelButton = new CreateEntityCommand("book", "cancel", session, navigation);
+
+            book = new Book(
+                string.Empty,
+                string.Empty,
+                new BookType(string.Empty),
+                new Publisher(string.Empty),
+                new List<Author>(),
+            0);
+
+            this.edit_mode = edit_mode;
         }
 
         // private
@@ -240,6 +285,9 @@ namespace Library_Application.ViewModels
 
         private Author selected_all_author;
         private Author selected_book_author;
+
+        private Book book;
+        private bool edit_mode;
 
         private void OnErrorsChange(string propertyName)
         {

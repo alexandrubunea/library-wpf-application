@@ -48,7 +48,15 @@ namespace Library_Application.Commands
             {
                 Publisher? publisherFound = currentView.PublisherList.FirstOrDefault(bookType => bookType.Id == (parameter as Publisher).Id);
                 if (publisherFound != null)
-                    navigation.currentViewModel = new EditPublisherViewModel(session, navigation, publisherFound);
+                {
+                    navigation.currentViewModel = new CreatePublisherViewModel(session, navigation, true);
+                    CreatePublisherViewModel? currViewModel = navigation.currentViewModel as CreatePublisherViewModel;
+
+                    if (currViewModel == null)
+                        return;
+
+                    currViewModel.Publisher = publisherFound;
+                }
                 return;
             }
         }

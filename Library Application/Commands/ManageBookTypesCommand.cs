@@ -49,9 +49,16 @@ namespace Library_Application.Commands
             if (button == "edit")
             {
                 BookType? bookTypeFound = currentView.BookTypesList.FirstOrDefault(bookType => bookType.Id == (parameter as BookType).Id);
-                if (bookTypeFound != null)
-                    navigation.currentViewModel = new EditBookTypeViewModel(session, navigation, bookTypeFound);
+                if (bookTypeFound != null) 
+                { 
+                    navigation.currentViewModel = new CreateBookTypeViewModel(session, navigation, true);
+                    CreateBookTypeViewModel? currViewModel = navigation.currentViewModel as CreateBookTypeViewModel;
 
+                    if (currViewModel == null)
+                        return;
+
+                    currViewModel.BookType = bookTypeFound;
+                }
                 return;
             }
         }

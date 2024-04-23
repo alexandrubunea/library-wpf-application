@@ -26,7 +26,7 @@ namespace Library_Application.Commands
 
             if(button == "addauthor")
             {
-                if (currentViewModel.Authors.Contains(currentViewModel.SelectedAllAuthor))
+                if (currentViewModel.Authors.FirstOrDefault(author => author.Id == currentViewModel.SelectedAllAuthor.Id) != default)
                     return;
 
                 currentViewModel.Authors.Add(currentViewModel.SelectedAllAuthor);

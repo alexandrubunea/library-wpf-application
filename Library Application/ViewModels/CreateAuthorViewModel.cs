@@ -1,4 +1,5 @@
 ﻿using Library_Application.Commands;
+using Library_Application.Models;
 using Library_Application.Stores;
 using System;
 using System.Collections;
@@ -16,8 +17,8 @@ namespace Library_Application.ViewModels
     internal class CreateAuthorViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         // public
-        public ICommand AuthorCreate { get; }
-        public ICommand CancelCreation { get; }
+        public ICommand SaveButton { get; }
+        public ICommand CancelButton { get; }
 
         public string FirstName
         {
@@ -81,7 +82,7 @@ namespace Library_Application.ViewModels
 
         public bool EmptyFields
         {
-            get=> FirstName == string.Empty || LastName == string.Empty || BirthDate == string.Empty;
+            get => FirstName == string.Empty || LastName == string.Empty || BirthDate == string.Empty;
         }
 
         public bool HasErrors => property_errors.Any();
@@ -113,18 +114,40 @@ namespace Library_Application.ViewModels
             }
         }
 
-        public CreateAuthorViewModel(Session session, Navigation navigation)
+        public Author Author
         {
-            AuthorCreate = new CreateEntityCommand("author", "create", session, navigation);
-            CancelCreation = new CreateEntityCommand("author", "cancel", session, navigation);
+            get => author;
+            set
+            {
+                author = value;
 
+                FirstName = author.FirstName;
+                LastName = author.LastName;
+                BirthDate = author.BirthDate;
+                AuthorAlreadyExists = false;
+            }
+        }
+
+        public bool EditMode
+        {
+            get => edit_mode;
+        }
+
+        public CreateAuthorViewModel(Session session, Navigation navigation, bool edit_mode=false)
+        {
             this.session = session;
             this.navigation = navigation;
+
+            SaveButton = new CreateEntityCommand("author", "save", session, navigation);
+            CancelButton = new CreateEntityCommand("author", "cancel", session, navigation);
 
             first_name = string.Empty;
             last_name = string.Empty;
             birth_date = string.Empty;
             author_already_exists = false;
+
+            author = new Author(string.Empty, string.Empty, string.Empty);
+            this.edit_mode = edit_mode;
         }
 
         // private
@@ -136,6 +159,9 @@ namespace Library_Application.ViewModels
         private string last_name;
         private string birth_date;
         private bool author_already_exists;
+        private bool edit_mode;
+
+        private Author author;
 
         private void OnErrorsChange(string propertyName)
         {

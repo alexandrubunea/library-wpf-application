@@ -24,7 +24,7 @@ namespace Library_Application.Commands
             if (parameter == null)
                 return;
 
-            if(button == "create")
+            if (button == "create")
             {
                 navigation.currentViewModel = new CreateAuthorViewModel(session, navigation);
                 return;
@@ -52,11 +52,19 @@ namespace Library_Application.Commands
                 }
                 return;
             }
-            if(button == "edit")
+            if (button == "edit")
             {
                 Author? authorFound = currentView.AuthorList.FirstOrDefault(author => author.Id == (parameter as Author).Id);
-                if (authorFound != null)
-                    navigation.currentViewModel = new EditAuthorViewModel(session, navigation, authorFound);
+                if (authorFound == null)
+                {
+                    // TODO: log error
+                    return;
+                }
+
+                navigation.currentViewModel = new CreateAuthorViewModel(session, navigation, true);
+                CreateAuthorViewModel? currViewModel = navigation.currentViewModel as CreateAuthorViewModel;
+                if (currViewModel != null)
+                    currViewModel.Author = authorFound;
 
                 return;
             }

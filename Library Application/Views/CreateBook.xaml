@@ -69,7 +69,7 @@
 
                 <TextBlock
                     Grid.Row="0"
-                    Text="Publishing date [DD.MM.YYYY]:"
+                    Text="Publishing date [dd.mm.yyyy]:"
                     Style="{StaticResource Label}"
                     Foreground="{StaticResource CoolWhite}"
                     HorizontalAlignment="Left"/>
@@ -327,11 +327,11 @@
 
                     <Button
                         Grid.Column="0"
-                        Content="Create"
+                        Content="Save"
                         Background="{StaticResource CoolDarkGreenAquaDark}"
                         Foreground="{StaticResource CoolWhite}"
                         Style="{StaticResource BigButton}"
-                        Command="{Binding CreateCommand}"
+                        Command="{Binding SaveButton}"
                         CommandParameter="{Binding}"/>
 
                     <Button
@@ -341,7 +341,7 @@
                         Background="{StaticResource CoolPinkRed}"
                         Foreground="{StaticResource CoolWhite}"
                         Style="{StaticResource BigButton}"
-                        Command="{Binding CancelCommand}"
+                        Command="{Binding CancelButton}"
                         CommandParameter="{Binding}"/>
                 </Grid>
             </Grid>

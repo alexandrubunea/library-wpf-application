@@ -57,7 +57,15 @@ namespace Library_Application.Commands
                 Book? bookFound = currentView.BooksList.FirstOrDefault(book => book.Id == (parameter as Book).Id);
 
                 if (bookFound != null)
-                    navigation.currentViewModel = new EditBookViewModel(session, navigation, bookFound);
+                {
+                    navigation.currentViewModel = new CreateBookViewModel(session, navigation, true);
+                    CreateBookViewModel? currViewModel = navigation.currentViewModel as CreateBookViewModel;
+
+                    if (currViewModel == null)
+                        return;
+
+                    currViewModel.Book = bookFound;
+                }
 
                 return;
             }

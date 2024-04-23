@@ -25,9 +25,19 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if(button == "create" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
+                if(button == "save" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
                 {
                     currentViewModel.BookTypeAlreadyExists = false;
+
+                    if(currentViewModel.EditMode)
+                    {
+                        currentViewModel.BookType.Name = currentViewModel.Name;
+                        currentViewModel.BookType.update();
+
+                        navigation.currentViewModel = new ManageBookTypesViewModel(session, navigation);
+
+                        return;
+                    }
 
                     if (DBUtils.doesBookTypeExists(currentViewModel.Name))
                     {
@@ -51,9 +61,19 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if (button == "create" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
+                if (button == "save" && currentViewModel.Name != string.Empty && !currentViewModel.HasErrors)
                 {
                     currentViewModel.PublisherAlreadyExists = false;
+
+                    if(currentViewModel.EditMode)
+                    {
+                        currentViewModel.Publisher.Name = currentViewModel.Name;
+                        currentViewModel.Publisher.update();
+
+                        navigation.currentViewModel = new ManagePublishersViewModel(session, navigation);
+
+                        return;
+                    }
 
                     if (DBUtils.doesPublisherExists(currentViewModel.Name))
                     {
@@ -77,9 +97,23 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if (button == "create" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
+                if (button == "save" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
                 {
                     currentViewModel.AuthorAlreadyExists = false;
+
+                    if(currentViewModel.EditMode)
+                    {
+
+                        currentViewModel.Author.FirstName = currentViewModel.FirstName;
+                        currentViewModel.Author.LastName = currentViewModel.LastName;
+                        currentViewModel.Author.BirthDate = currentViewModel.BirthDate;
+
+                        currentViewModel.Author.update();
+
+                        navigation.currentViewModel = new ManageAuthorsViewModel(session, navigation);
+
+                        return;
+                    }
 
                     if (DBUtils.doesAuthorExists(currentViewModel.FirstName, currentViewModel.LastName))
                     {
@@ -103,9 +137,24 @@ namespace Library_Application.Commands
                     return;
                 }
 
-                if (button == "create" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
+                if (button == "save" && !currentViewModel.HasErrors && !currentViewModel.EmptyFields)
                 {
                     currentViewModel.BookAlreadyExists = false;
+
+                    if(currentViewModel.EditMode)
+                    {
+                        currentViewModel.Book.Title = currentViewModel.Title;
+                        currentViewModel.Book.PublishYear = currentViewModel.PublishDate;
+                        currentViewModel.Book.BookType = currentViewModel.BookType;
+                        currentViewModel.Book.Publisher = currentViewModel.Publisher;
+                        currentViewModel.Book.Authors = new List<Author>(currentViewModel.Authors);
+                        currentViewModel.Book.Stock = Convert.ToInt32(currentViewModel.Stock);
+                        currentViewModel.Book.update();
+
+                        navigation.currentViewModel = new ManageBooksViewModel(session, navigation);
+                        
+                        return;
+                    }
 
                     if (DBUtils.doesBookExists(currentViewModel.Title))
                     {
